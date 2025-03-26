@@ -5,25 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>北京交通大学智能系统</title>
     <link rel="stylesheet" href="css/auth.css">
-    <script>
-        // 检查是否已登录
-        window.onload = function() {
-            const username = localStorage.getItem('username');
-            if (username) {
-                window.location.href = '/dashboard.html';
-            } else {
-                window.location.href = '/login.html';
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="auth-container">
         <div class="auth-box">
             <div class="auth-header">
-                <h1>正在加载...</h1>
+                <h1>北京交通大学智能系统</h1>
+                <p>欢迎使用智能问答系统</p>
             </div>
+            <form id="loginForm" class="auth-form">
+                <div class="input-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">登录</button>
+                <p class="auth-link">
+                    还没有账号？<a href="register.html">立即注册</a>
+                </p>
+                <div id="message" class="message"></div>
+            </form>
         </div>
     </div>
+    <script src="js/auth.js"></script>
 </body>
 </html>

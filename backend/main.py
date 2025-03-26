@@ -10,6 +10,7 @@ import logging
 import httpx  # 用于发送HTTP请求
 import json
 from typing import Optional
+from .routes import rag
 
 # 设置日志
 logging.basicConfig(level=logging.INFO)
@@ -30,6 +31,9 @@ app.add_middleware(
     allow_methods=["*"],  # 允许所有方法
     allow_headers=["*"],  # 允许所有头部
 )
+
+# 注册 RAG 路由
+app.include_router(rag.router)
 
 # 获取数据库会话
 def get_db():

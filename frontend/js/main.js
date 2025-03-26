@@ -1,10 +1,24 @@
-const API_BASE_URL = 'http://localhost:8000';
-
 // 显示消息的辅助函数
 function showMessage(elementId, message, isError = false) {
     const messageElement = document.getElementById(elementId);
     messageElement.textContent = message;
     messageElement.className = `message ${isError ? 'error' : 'success'}`;
+}
+
+// 处理知识库管理按钮
+console.log('开始初始化知识库管理按钮');
+const knowledgeBtn = document.getElementById('knowledgeBtn');
+console.log('知识库管理按钮元素:', knowledgeBtn);
+
+if (knowledgeBtn) {
+    console.log('找到知识库管理按钮，添加点击事件');
+    knowledgeBtn.addEventListener('click', function(e) {
+        console.log('知识库管理按钮被点击');
+        e.preventDefault();
+        window.location.href = 'knowledge.html';
+    });
+} else {
+    console.error('未找到知识库管理按钮元素');
 }
 
 // 处理登录表单
@@ -92,6 +106,7 @@ const sendBtn = document.getElementById('sendBtn');
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM加载完成');
     chatInput.focus();
     
     // 发送按钮点击事件
@@ -121,12 +136,35 @@ async function sendMessage() {
     const loadingDiv = showLoadingIndicator();
 
     try {
+        // 首先获取 RAG 结果
+        let ragResults = [];
+        try {
+            const ragResponse = await fetch(`${API_BASE_URL}/api/rag/retrieve?query=${encodeURIComponent(message)}`);
+            const ragData = await ragResponse.json();
+            if (ragData.results && ragData.results.length > 0) {
+                ragResults = ragData.results;
+            }
+        } catch (ragError) {
+            console.error('获取 RAG 结果失败:', ragError);
+        }
+        
+        // 构建提示
+        let prompt = message;
+        if (ragResults.length > 0) {
+            // 如果找到相关知识，将其整合到提示中
+            prompt = `你是一个智能助手。如果以下知识库内容与问题相关，请基于这些知识回答；如果不相关，请直接回答你的理解。\n\n知识库内容：\n${ragResults.join('\n\n')}\n\n问题：${message}`;
+        } else {
+            // 如果没有找到相关知识，直接让模型回答
+            prompt = `你是一个智能助手，请直接回答以下问题：${message}`;
+        }
+
+        // 发送到 LLM
         const response = await fetch(`${API_BASE_URL}/llm/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ message })
+            body: JSON.stringify({ message: prompt })
         });
 
         // 移除加载动画

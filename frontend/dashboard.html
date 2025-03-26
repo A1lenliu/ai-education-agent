@@ -11,24 +11,32 @@
         <!-- 标题区域 -->
         <header class="header">
             <h1>北京交通大学智能系统</h1>
+            <div class="header-controls">
+                <button id="knowledgeBtn" class="nav-btn">知识库管理</button>
+                <button id="logoutBtn" class="logout-btn">退出登录</button>
+            </div>
         </header>
 
-        <!-- 主要聊天区域 -->
-        <main class="chat-area">
-            <div id="chatMessages" class="chat-messages"></div>
-        </main>
-
-        <!-- 输入区域 -->
-        <div class="input-area">
-            <input 
-                type="text" 
-                id="chatInput" 
-                placeholder="请输入您的问题..."
-                autocomplete="off"
-            >
-            <button id="sendBtn">发送</button>
+        <!-- 主要内容区域 -->
+        <div class="main-content">
+            <!-- 聊天区域 -->
+            <div class="chat-panel">
+                <div id="chatMessages" class="chat-messages"></div>
+                <div id="ragResults" class="rag-results"></div>
+                <div class="input-area">
+                    <input 
+                        type="text" 
+                        id="chatInput" 
+                        placeholder="请输入您的问题..."
+                        autocomplete="off"
+                    >
+                    <button id="sendBtn">发送</button>
+                </div>
+            </div>
         </div>
     </div>
+    <script src="js/config.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/rag.js"></script>
 </body>
 </html>

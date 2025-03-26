@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识库管理 - 北京交通大学智能系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/knowledge.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 标题区域 -->
+        <header class="header">
+            <h1>知识库管理系统</h1>
+            <div class="header-controls">
+                <button id="backToDashboard" class="nav-btn">返回仪表板</button>
+                <button id="logoutBtn" class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <div class="knowledge-content">
+            <!-- 上传区域 -->
+            <div class="upload-section">
+                <h2>上传知识</h2>
+                <form id="uploadForm" class="upload-form">
+                    <div class="file-input-wrapper">
+                        <input type="file" id="knowledgeFile" accept=".txt" required>
+                        <label for="knowledgeFile" class="file-label">
+                            <span>选择文件</span>
+                            <span class="file-name">未选择文件</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="upload-btn">上传文件</button>
+                    <div id="uploadMessage" class="message"></div>
+                </form>
+            </div>
+
+            <!-- 知识库统计 -->
+            <div class="stats-section">
+                <h2>知识库统计</h2>
+                <div class="stats-card">
+                    <div class="stat-item">
+                        <span class="stat-label">知识段落数</span>
+                        <span class="stat-value" id="knowledgeCount">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 知识预览 -->
+            <div class="preview-section">
+                <h2>知识预览</h2>
+                <div class="preview-controls">
+                    <input type="text" id="searchInput" placeholder="搜索知识..." class="search-input">
+                </div>
+                <div id="knowledgePreview" class="knowledge-preview"></div>
+            </div>
+        </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/knowledge.js"></script>
+</body>
+</html> 
