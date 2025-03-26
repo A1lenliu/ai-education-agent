@@ -84,3 +84,97 @@ if (logoutBtn) {
         window.location.href = 'login.html';
     });
 }
+
+// 处理聊天功能
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+    chatInput.focus();
+    
+    // 发送按钮点击事件
+    sendBtn.addEventListener('click', sendMessage);
+    
+    // 输入框回车事件
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+});
+
+async function sendMessage() {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // 禁用输入
+    chatInput.disabled = true;
+    sendBtn.disabled = true;
+
+    // 显示用户消息
+    appendMessage(message, 'user');
+    chatInput.value = '';
+
+    // 显示加载动画
+    const loadingDiv = showLoadingIndicator();
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/llm/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message })
+        });
+
+        // 移除加载动画
+        loadingDiv.remove();
+
+        if (response.ok) {
+            const data = await response.json();
+            appendMessage(data.response, 'ai');
+        } else {
+            const errorData = await response.json();
+            appendMessage('抱歉，发生错误: ' + (errorData.detail || '未知错误'), 'ai');
+        }
+    } catch (error) {
+        loadingDiv.remove();
+        appendMessage('抱歉，请求失败，请稍后重试', 'ai');
+    } finally {
+        // 恢复输入
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        chatInput.focus();
+    }
+}
+
+function showLoadingIndicator() {
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'message-item ai-message';
+    loadingDiv.innerHTML = `
+        <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+    chatMessages.appendChild(loadingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return loadingDiv;
+}
+
+function appendMessage(message, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message-item ${type}-message`;
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// 添加错误处理
+window.onerror = function(msg, url, line, col, error) {
+    console.error('全局错误:', { msg, url, line, col, error });
+    return false;
+};

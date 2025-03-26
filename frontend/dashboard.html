@@ -3,19 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>主页 - AI教育智能体</title>
+    <title>北京交通大学智能系统</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="dashboard">
-        <header class="dashboard-header">
-            <h1>欢迎使用 AI 教育智能体</h1>
-            <button id="logoutBtn" class="logout-btn">退出登录</button>
+    <div class="container">
+        <!-- 标题区域 -->
+        <header class="header">
+            <h1>北京交通大学智能系统</h1>
         </header>
-        <main class="dashboard-content">
-            <div id="welcomeMessage"></div>
-            <!-- 这里可以添加更多的内容 -->
+
+        <!-- 主要聊天区域 -->
+        <main class="chat-area">
+            <div id="chatMessages" class="chat-messages"></div>
         </main>
+
+        <!-- 输入区域 -->
+        <div class="input-area">
+            <input 
+                type="text" 
+                id="chatInput" 
+                placeholder="请输入您的问题..."
+                autocomplete="off"
+            >
+            <button id="sendBtn">发送</button>
+        </div>
     </div>
     <script src="js/main.js"></script>
 </body>

@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI教育智能体</title>
+    <title>北京交通大学智能系统</title>
+    <link rel="stylesheet" href="css/auth.css">
     <script>
-        window.location.href = 'login.html';
+        // 检查是否已登录
+        window.onload = function() {
+            const username = localStorage.getItem('username');
+            if (username) {
+                window.location.href = '/dashboard.html';
+            } else {
+                window.location.href = '/login.html';
+            }
+        }
     </script>
 </head>
 <body>
-    正在跳转到登录页面...
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>正在加载...</h1>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
