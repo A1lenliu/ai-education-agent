@@ -1,111 +1,93 @@
 // 显示消息的辅助函数
 function showMessage(elementId, message, isError = false) {
     const messageElement = document.getElementById(elementId);
-    messageElement.textContent = message;
-    messageElement.className = `message ${isError ? 'error' : 'success'}`;
-}
-
-// 处理知识库管理按钮
-console.log('开始初始化知识库管理按钮');
-const knowledgeBtn = document.getElementById('knowledgeBtn');
-console.log('知识库管理按钮元素:', knowledgeBtn);
-
-if (knowledgeBtn) {
-    console.log('找到知识库管理按钮，添加点击事件');
-    knowledgeBtn.addEventListener('click', function(e) {
-        console.log('知识库管理按钮被点击');
-        e.preventDefault();
-        window.location.href = 'knowledge.html';
-    });
-} else {
-    console.error('未找到知识库管理按钮元素');
-}
-
-// 处理登录表单
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/login?username=${username}&password=${password}`, {
-                method: 'POST',
-            });
-            const data = await response.json();
-
-            if (response.ok) {
-                // 登录成功
-                localStorage.setItem('username', username);
-                showMessage('message', '登录成功！');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
-            } else {
-                showMessage('message', data.detail || '登录失败', true);
-            }
-        } catch (error) {
-            showMessage('message', '服务器错误', true);
-        }
-    });
-}
-
-// 处理注册表单
-const registerForm = document.getElementById('registerForm');
-if (registerForm) {
-    registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/register?username=${username}&password=${password}`, {
-                method: 'POST',
-            });
-            const data = await response.json();
-
-            if (response.ok) {
-                showMessage('message', '注册成功！');
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1000);
-            } else {
-                showMessage('message', data.detail || '注册失败', true);
-            }
-        } catch (error) {
-            showMessage('message', '服务器错误', true);
-        }
-    });
-}
-
-// 处理仪表板页面
-const welcomeMessage = document.getElementById('welcomeMessage');
-if (welcomeMessage) {
-    const username = localStorage.getItem('username');
-    if (username) {
-        welcomeMessage.textContent = `欢迎回来，${username}！`;
+    if (messageElement) {
+        messageElement.textContent = message;
+        messageElement.className = `message ${isError ? 'error' : 'success'}`;
     } else {
-        window.location.href = 'login.html';
+        console.error(`未找到消息元素: ${elementId}`);
     }
 }
 
-// 处理退出登录
-const logoutBtn = document.getElementById('logoutBtn');
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('username');
-        window.location.href = 'login.html';
-    });
-}
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('页面加载完成，开始初始化...');
+    
+    // 处理登录表单
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-// 处理聊天功能
-const chatMessages = document.getElementById('chatMessages');
-const chatInput = document.getElementById('chatInput');
-const sendBtn = document.getElementById('sendBtn');
+            try {
+                const response = await fetch(`${API_BASE_URL}/login?username=${username}&password=${password}`, {
+                    method: 'POST',
+                });
+                const data = await response.json();
 
-// 初始化
-document.addEventListener('DOMContentLoaded', () => {
+                if (response.ok) {
+                    // 登录成功
+                    localStorage.setItem('username', username);
+                    showMessage('message', '登录成功！');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    showMessage('message', data.detail || '登录失败', true);
+                }
+            } catch (error) {
+                showMessage('message', '服务器错误', true);
+            }
+        });
+    }
+
+    // 处理注册表单
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/register?username=${username}&password=${password}`, {
+                    method: 'POST',
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('message', '注册成功！');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1000);
+                } else {
+                    showMessage('message', data.detail || '注册失败', true);
+                }
+            } catch (error) {
+                showMessage('message', '服务器错误', true);
+            }
+        });
+    }
+
+    // 处理仪表板页面
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    if (welcomeMessage) {
+        const username = localStorage.getItem('username');
+        if (username) {
+            welcomeMessage.textContent = `欢迎回来，${username}！`;
+        } else {
+            window.location.href = 'login.html';
+        }
+    }
+
+    // 处理聊天功能
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // 初始化
     console.log('DOM加载完成');
     chatInput.focus();
     

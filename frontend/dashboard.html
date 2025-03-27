@@ -12,8 +12,9 @@
         <header class="header">
             <h1>北京交通大学智能系统</h1>
             <div class="header-controls">
-                <button id="knowledgeBtn" class="nav-btn">知识库管理</button>
-                <button id="logoutBtn" class="logout-btn">退出登录</button>
+                <button id="knowledgeBtn" class="nav-btn" onclick="window.location.href='knowledge.html'">知识库管理</button>
+                <button id="reactAgentBtn" class="nav-btn" onclick="window.location.href='react_agent.html'">ReAct智能体</button>
+                <button id="logoutBtn" class="logout-btn" onclick="logout()">退出登录</button>
             </div>
         </header>
 
@@ -36,6 +37,18 @@
         </div>
     </div>
     <script src="js/config.js"></script>
+    <script>
+        // 确保API_BASE_URL已定义
+        if (typeof API_BASE_URL === 'undefined') {
+            console.error('API_BASE_URL未定义，请检查config.js是否正确加载');
+        }
+
+        // 退出登录函数
+        function logout() {
+            localStorage.removeItem('username');
+            window.location.href = 'login.html';
+        }
+    </script>
     <script src="js/main.js"></script>
     <script src="js/rag.js"></script>
 </body>

@@ -10,7 +10,7 @@ import logging
 import httpx  # 用于发送HTTP请求
 import json
 from typing import Optional
-from .routes import rag
+from .routes import rag, react_agent
 
 # 设置日志
 logging.basicConfig(level=logging.INFO)
@@ -26,7 +26,7 @@ app = FastAPI()
 # 添加 CORS 中间件配置
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # 允许的前端域名
+    allow_origins=["http://localhost:3000", "http://localhost:8000", "http://localhost:8001"],  # 允许的前端域名
     allow_credentials=True,
     allow_methods=["*"],  # 允许所有方法
     allow_headers=["*"],  # 允许所有头部
@@ -34,6 +34,9 @@ app.add_middleware(
 
 # 注册 RAG 路由
 app.include_router(rag.router)
+
+# 注册 ReAct 路由
+app.include_router(react_agent.router, prefix="/react-agent", tags=["react-agent"])
 
 # 获取数据库会话
 def get_db():
@@ -68,11 +71,12 @@ def register(username: str, password: str, db: Session = Depends(get_db)):
 
 # 设置 DeepSeek API Key
 DEEPSEEK_API_KEY = "sk-3b20bd773e754d5889566ff5455a93ce"  # 请替换为你的实际API密钥
-DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1"
 
 # 配置 OpenAI 兼容客户端
 openai.api_key = DEEPSEEK_API_KEY
 openai.api_base = DEEPSEEK_API_URL
+openai.api_type = "deepseek"  # 指定API类型
 
 # 定义请求数据格式
 class LLMRequest(BaseModel):
@@ -134,3 +138,7 @@ async def chat(request: ChatRequest):
 @app.get("/test")
 async def test():
     return {"message": "API 服务器正常运行"}
+
+@app.get("/")
+async def root():
+    return {"message": "ReAct智能体API服务正在运行"}
