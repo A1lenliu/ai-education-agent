@@ -71,11 +71,11 @@ def register(username: str, password: str, db: Session = Depends(get_db)):
 
 # 设置 DeepSeek API Key
 DEEPSEEK_API_KEY = "sk-3b20bd773e754d5889566ff5455a93ce"  # 请替换为你的实际API密钥
-DEEPSEEK_API_URL = "https://api.deepseek.com/v1"
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"  # 修改为完整的API端点
 
 # 配置 OpenAI 兼容客户端
 openai.api_key = DEEPSEEK_API_KEY
-openai.api_base = DEEPSEEK_API_URL
+openai.api_base = "https://api.deepseek.com/v1"  # 基础URL
 openai.api_type = "deepseek"  # 指定API类型
 
 # 定义请求数据格式
@@ -99,7 +99,9 @@ async def chat(request: ChatRequest):
             "model": "deepseek-chat",
             "messages": [
                 {"role": "user", "content": request.message}
-            ]
+            ],
+            "temperature": 0.7,
+            "max_tokens": 2000
         }
 
         logger.info(f"准备发送到 DeepSeek API 的数据: {json.dumps(data, ensure_ascii=False)}")
@@ -107,7 +109,7 @@ async def chat(request: ChatRequest):
         async with httpx.AsyncClient(timeout=30.0) as client:
             try:
                 response = await client.post(
-                    DEEPSEEK_API_URL,
+                    DEEPSEEK_API_URL,  # 使用完整的API端点
                     headers=headers,
                     json=data
                 )
