@@ -3,41 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>北京交通大学智能系统</title>
+    <title>AingDesk风格智能系统</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- 标题区域 -->
-        <header class="header">
-            <h1>北京交通大学智能系统</h1>
-            <div class="header-controls">
-                <button id="knowledgeBtn" class="nav-btn" onclick="window.location.href='knowledge.html'">知识库管理</button>
-                <button id="reactAgentBtn" class="nav-btn" onclick="window.location.href='react_agent.html'">ReAct智能体</button>
-                <button id="logoutBtn" class="logout-btn" onclick="logout()">退出登录</button>
+    <div class="app-container">
+        <!-- 左侧边栏 -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo">
+                <span>智能助手</span>
             </div>
-        </header>
+            
+            <!-- 对话区域 -->
+            <div class="sidebar-section">
+                <button class="new-chat-btn">
+                    <i class="fas fa-plus"></i> 新建对话
+                </button>
+                <div class="chat-list">
+                    <!-- 对话列表将通过JavaScript动态添加 -->
+                </div>
+            </div>
+
+            <!-- 知识库区域 -->
+            <div class="sidebar-section">
+                <h3>知识库</h3>
+                <button class="new-kb-btn" onclick="window.location.href='knowledge.html'">
+                    <i class="fas fa-database"></i> 新建知识库
+                </button>
+            </div>
+
+            <!-- 底部设置区域 -->
+            <div class="sidebar-bottom">
+                <button class="settings-btn" onclick="window.location.href='react_agent.html'">
+                    <i class="fas fa-robot"></i> 智能体
+                </button>
+                <button class="settings-btn">
+                    <i class="fas fa-cog"></i> 设置
+                </button>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </button>
+            </div>
+        </div>
 
         <!-- 主要内容区域 -->
         <div class="main-content">
+            <!-- 顶部导航 -->
+            <div class="top-nav">
+                <div class="model-selector">
+                    <span>模型：</span>
+                    <select id="modelSelect">
+                        <option value="gpt-3.5">GPT-3.5</option>
+                        <option value="deepseek">DeepSeek</option>
+                    </select>
+                </div>
+                <button class="share-btn">
+                    <i class="fas fa-share"></i> 分享
+                </button>
+            </div>
+
             <!-- 聊天区域 -->
-            <div class="chat-panel">
+            <div class="chat-container">
                 <div id="chatMessages" class="chat-messages"></div>
                 <div id="ragResults" class="rag-results"></div>
+                
+                <!-- 底部输入区域 -->
                 <div class="input-area">
-                    <input 
-                        type="text" 
-                        id="chatInput" 
-                        placeholder="请输入您的问题..."
-                        autocomplete="off"
-                    >
-                    <button id="sendBtn">发送</button>
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="chatInput" 
+                            placeholder="请输入您的问题..."
+                            rows="1"
+                            autocomplete="off"
+                        ></textarea>
+                        <div class="action-buttons">
+                            <button class="action-btn" title="无记忆">
+                                <i class="fas fa-brain"></i>
+                            </button>
+                            <button class="action-btn" title="上传附件">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button class="action-btn" title="知识库">
+                                <i class="fas fa-database"></i>
+                            </button>
+                            <button class="action-btn" title="联网搜索">
+                                <i class="fas fa-globe"></i>
+                            </button>
+                            <button id="sendBtn" class="send-btn">
+                                发送
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="js/config.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/rag.js"></script>
     <script>
         // 确保API_BASE_URL已定义
         if (typeof API_BASE_URL === 'undefined') {
@@ -69,6 +135,5 @@
             chatInput.focus();
         });
     </script>
-    <script src="js/rag.js"></script>
 </body>
 </html>
