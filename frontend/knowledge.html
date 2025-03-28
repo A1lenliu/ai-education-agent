@@ -3,61 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>知识库管理 - 北京交通大学智能系统</title>
+    <title>知识库管理 - AingDesk风格智能系统</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/knowledge.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- 标题区域 -->
-        <header class="header">
-            <h1>知识库管理系统</h1>
-            <div class="header-controls">
-                <button id="backToDashboard" class="nav-btn">返回仪表板</button>
-                <button id="logoutBtn" class="logout-btn">退出登录</button>
+    <div class="app-container">
+        <!-- 左侧边栏 -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo">
+                <span>智能助手</span>
             </div>
-        </header>
+            
+            <!-- 知识库列表 -->
+            <div class="sidebar-section">
+                <button class="new-chat-btn" onclick="createNewKnowledgeBase()">
+                    <i class="fas fa-plus"></i> 新建知识库
+                </button>
+                <div class="kb-list">
+                    <!-- 知识库列表将通过JavaScript动态添加 -->
+                </div>
+            </div>
+
+            <!-- 底部设置区域 -->
+            <div class="sidebar-bottom">
+                <button class="settings-btn" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-comments"></i> 对话
+                </button>
+                <button class="settings-btn" onclick="window.location.href='react_agent.html'">
+                    <i class="fas fa-robot"></i> 智能体
+                </button>
+                <button class="settings-btn">
+                    <i class="fas fa-cog"></i> 设置
+                </button>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </button>
+            </div>
+        </div>
 
         <!-- 主要内容区域 -->
-        <div class="knowledge-content">
-            <!-- 上传区域 -->
-            <div class="upload-section">
-                <h2>上传知识</h2>
-                <form id="uploadForm" class="upload-form">
-                    <div class="file-input-wrapper">
-                        <input type="file" id="knowledgeFile" accept=".txt" required>
-                        <label for="knowledgeFile" class="file-label">
-                            <span>选择文件</span>
-                            <span class="file-name">未选择文件</span>
-                        </label>
-                    </div>
-                    <button type="submit" class="upload-btn">上传文件</button>
-                    <div id="uploadMessage" class="message"></div>
-                </form>
-            </div>
-
-            <!-- 知识库统计 -->
-            <div class="stats-section">
-                <h2>知识库统计</h2>
-                <div class="stats-card">
-                    <div class="stat-item">
-                        <span class="stat-label">知识段落数</span>
-                        <span class="stat-value" id="knowledgeCount">0</span>
-                    </div>
+        <div class="main-content">
+            <!-- 顶部导航 -->
+            <div class="top-nav">
+                <div class="kb-info">
+                    <h2 id="currentKbName">知识库管理</h2>
+                </div>
+                <div class="kb-actions">
+                    <button class="action-btn" title="导入文件">
+                        <i class="fas fa-file-import"></i> 导入
+                    </button>
+                    <button class="action-btn" title="导出知识库">
+                        <i class="fas fa-file-export"></i> 导出
+                    </button>
+                    <button class="share-btn">
+                        <i class="fas fa-share"></i> 分享
+                    </button>
                 </div>
             </div>
 
-            <!-- 知识预览 -->
-            <div class="preview-section">
-                <h2>知识预览</h2>
-                <div class="preview-controls">
-                    <input type="text" id="searchInput" placeholder="搜索知识..." class="search-input">
+            <!-- 知识库内容区域 -->
+            <div class="kb-container">
+                <!-- 左侧文件树 -->
+                <div class="file-tree-panel">
+                    <div class="panel-header">
+                        <h3>文件结构</h3>
+                        <button class="action-btn" onclick="createNewFolder()">
+                            <i class="fas fa-folder-plus"></i>
+                        </button>
+                    </div>
+                    <div class="file-tree" id="fileTree">
+                        <!-- 文件树将通过JavaScript动态添加 -->
+                    </div>
                 </div>
-                <div id="knowledgePreview" class="knowledge-preview"></div>
+
+                <!-- 右侧内容展示 -->
+                <div class="content-panel">
+                    <!-- 文件上传区域 -->
+                    <div class="upload-zone" id="uploadZone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>拖拽文件到此处或点击上传</p>
+                        <input type="file" id="fileInput" multiple hidden>
+                    </div>
+
+                    <!-- 文件列表 -->
+                    <div class="file-list">
+                        <div class="file-list-header">
+                            <div class="file-item header">
+                                <span class="file-name">文件名</span>
+                                <span class="file-size">大小</span>
+                                <span class="file-date">上传日期</span>
+                                <span class="file-actions">操作</span>
+                            </div>
+                        </div>
+                        <div class="file-list-content" id="fileList">
+                            <!-- 文件列表将通过JavaScript动态添加 -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- 新建知识库模态框 -->
+    <div class="modal" id="newKbModal">
+        <div class="modal-content">
+            <h3>新建知识库</h3>
+            <input type="text" id="newKbName" placeholder="知识库名称">
+            <textarea id="newKbDesc" placeholder="知识库描述"></textarea>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal('newKbModal')">取消</button>
+                <button class="confirm-btn" onclick="confirmCreateKb()">创建</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/config.js"></script>
-    <script src="js/knowledge.js"></script>
+    <script>
+        // 确保API_BASE_URL已定义
+        if (typeof API_BASE_URL === 'undefined') {
+            console.error('API_BASE_URL未定义，请检查config.js是否正确加载');
+        }
+
+        // 退出登录函数
+        function logout() {
+            localStorage.removeItem('username');
+            window.location.href = 'login.html';
+        }
+
+        // 创建新知识库
+        function createNewKnowledgeBase() {
+            document.getElementById('newKbModal').style.display = 'flex';
+        }
+
+        // 关闭模态框
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // 确认创建知识库
+        function confirmCreateKb() {
+            const name = document.getElementById('newKbName').value;
+            const desc = document.getElementById('newKbDesc').value;
+            // TODO: 调用API创建知识库
+            closeModal('newKbModal');
+        }
+
+        // 创建新文件夹
+        function createNewFolder() {
+            // TODO: 实现创建文件夹逻辑
+        }
+
+        // 初始化上传区域
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadZone = document.getElementById('uploadZone');
+            const fileInput = document.getElementById('fileInput');
+
+            uploadZone.addEventListener('click', () => fileInput.click());
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.classList.remove('dragover');
+            });
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                handleFiles(files);
+            });
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+        });
+
+        function handleFiles(files) {
+            // TODO: 处理文件上传
+            console.log('上传文件：', files);
+        }
+    </script>
 </body>
 </html> 
