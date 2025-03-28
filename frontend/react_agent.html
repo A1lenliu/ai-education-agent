@@ -107,7 +107,7 @@
             result.classList.add('hidden');
             
             try {
-                const url = `${API_BASE_URL}/react-agent/query`;
+                const url = `${API_BASE_URL}/llm/chat`;
                 console.log('发送请求到:', url);
                 
                 const response = await fetch(url, {
@@ -116,8 +116,8 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        query: query,
-                        api_key: apiKey || undefined
+                        message: query,
+                        history: []  // 如果需要保持对话历史，可以从 localStorage 中获取
                     })
                 });
                 
@@ -134,16 +134,14 @@
                 
                 // 显示对话历史
                 const historyDiv = document.getElementById('conversation-history');
-                historyDiv.innerHTML = data.conversation_history.map(item => `
-                    <div class="conversation-item ${item.type.toLowerCase()}">
-                        <strong>${item.type}:</strong> ${item.content}
-                        ${item.tool_name ? `<br><small>工具: ${item.tool_name}</small>` : ''}
-                        ${item.tool_args ? `<br><small>参数: ${JSON.stringify(item.tool_args)}</small>` : ''}
+                historyDiv.innerHTML = data.history.map(item => `
+                    <div class="conversation-item ${item.role.toLowerCase()}">
+                        <strong>${item.role}:</strong> ${item.content}
                     </div>
                 `).join('');
                 
                 // 显示最终答案
-                document.getElementById('final-answer').textContent = data.result;
+                document.getElementById('final-answer').textContent = data.response;
                 
                 result.classList.remove('hidden');
             } catch (error) {

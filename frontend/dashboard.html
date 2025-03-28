@@ -37,6 +37,7 @@
         </div>
     </div>
     <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
     <script>
         // 确保API_BASE_URL已定义
         if (typeof API_BASE_URL === 'undefined') {
@@ -48,8 +49,26 @@
             localStorage.removeItem('username');
             window.location.href = 'login.html';
         }
+
+        // 添加事件监听器
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+
+            // 发送按钮点击事件
+            sendBtn.addEventListener('click', sendMessage);
+
+            // 回车发送消息
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // 聚焦输入框
+            chatInput.focus();
+        });
     </script>
-    <script src="js/main.js"></script>
     <script src="js/rag.js"></script>
 </body>
 </html>

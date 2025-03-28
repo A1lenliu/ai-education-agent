@@ -19,6 +19,15 @@ logger = logging.getLogger(__name__)
 # 添加请求模型
 class ChatRequest(BaseModel):
     message: str
+    history: list = []  # 聊天历史（可选）
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "message": "你好",
+                "history": []
+            }
+        }
 
 # 初始化 FastAPI 应用
 app = FastAPI()
@@ -78,15 +87,11 @@ openai.api_key = DEEPSEEK_API_KEY
 openai.api_base = "https://api.deepseek.com/v1"  # 基础URL
 openai.api_type = "deepseek"  # 指定API类型
 
-# 定义请求数据格式
-class LLMRequest(BaseModel):
-    query: str  # 用户输入的问题
-    history: list = []  # 聊天历史（可选）
-
 # LLM 处理端点
 @app.post("/llm/chat")
 async def chat(request: ChatRequest):
     logger.info(f"收到聊天请求: {request.message}")
+    logger.info(f"请求数据: {request.dict()}")
     
     try:
         # 准备请求数据
@@ -95,11 +100,15 @@ async def chat(request: ChatRequest):
             "Content-Type": "application/json"
         }
         
+        # 构建消息列表
+        messages = []
+        if request.history:
+            messages.extend(request.history)
+        messages.append({"role": "user", "content": request.message})
+        
         data = {
             "model": "deepseek-chat",
-            "messages": [
-                {"role": "user", "content": request.message}
-            ],
+            "messages": messages,
             "temperature": 0.7,
             "max_tokens": 2000
         }
@@ -109,7 +118,7 @@ async def chat(request: ChatRequest):
         async with httpx.AsyncClient(timeout=30.0) as client:
             try:
                 response = await client.post(
-                    DEEPSEEK_API_URL,  # 使用完整的API端点
+                    DEEPSEEK_API_URL,
                     headers=headers,
                     json=data
                 )
@@ -120,7 +129,10 @@ async def chat(request: ChatRequest):
                 if response.status_code == 200:
                     result = response.json()
                     ai_response = result['choices'][0]['message']['content']
-                    return {"response": ai_response}
+                    return {
+                        "response": ai_response,
+                        "history": messages + [{"role": "assistant", "content": ai_response}]
+                    }
                 else:
                     error_msg = f"DeepSeek API 错误: {response.text}"
                     logger.error(error_msg)

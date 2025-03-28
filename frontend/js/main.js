@@ -102,95 +102,120 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// 发送消息函数
 async function sendMessage() {
+    const chatInput = document.getElementById('chatInput');
     const message = chatInput.value.trim();
-    if (!message) return;
-
-    // 禁用输入
-    chatInput.disabled = true;
-    sendBtn.disabled = true;
-
+    
+    if (!message) {
+        return;
+    }
+    
+    // 清空输入框
+    chatInput.value = '';
+    
     // 显示用户消息
     appendMessage(message, 'user');
-    chatInput.value = '';
-
-    // 显示加载动画
-    const loadingDiv = showLoadingIndicator();
-
+    
+    // 显示加载指示器
+    showLoadingIndicator();
+    
     try {
-        // 首先获取 RAG 结果
-        let ragResults = [];
-        try {
-            const ragResponse = await fetch(`${API_BASE_URL}/api/rag/retrieve?query=${encodeURIComponent(message)}`);
-            const ragData = await ragResponse.json();
-            if (ragData.results && ragData.results.length > 0) {
-                ragResults = ragData.results;
-            }
-        } catch (ragError) {
-            console.error('获取 RAG 结果失败:', ragError);
-        }
+        // 发送消息到服务器
+        const requestData = {
+            message: message,
+            history: []  // 如果需要保持对话历史，可以从 localStorage 中获取
+        };
         
-        // 构建提示
-        let prompt = message;
-        if (ragResults.length > 0) {
-            // 如果找到相关知识，将其整合到提示中
-            prompt = `你是一个智能助手。如果以下知识库内容与问题相关，请基于这些知识回答；如果不相关，请直接回答你的理解。\n\n知识库内容：\n${ragResults.join('\n\n')}\n\n问题：${message}`;
-        } else {
-            // 如果没有找到相关知识，直接让模型回答
-            prompt = `你是一个智能助手，请直接回答以下问题：${message}`;
-        }
-
-        // 发送到 LLM
+        console.log('准备发送请求到:', `${API_BASE_URL}/llm/chat`);
+        console.log('请求数据:', JSON.stringify(requestData, null, 2));
+        
         const response = await fetch(`${API_BASE_URL}/llm/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
-            body: JSON.stringify({ message: prompt })
+            body: JSON.stringify(requestData)
         });
-
-        // 移除加载动画
-        loadingDiv.remove();
-
-        if (response.ok) {
-            const data = await response.json();
-            appendMessage(data.response, 'ai');
-        } else {
-            const errorData = await response.json();
-            appendMessage('抱歉，发生错误: ' + (errorData.detail || '未知错误'), 'ai');
+        
+        console.log('收到响应状态:', response.status);
+        console.log('响应头:', Object.fromEntries(response.headers.entries()));
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('服务器响应错误:', {
+                status: response.status,
+                statusText: response.statusText,
+                errorText: errorText
+            });
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
+        
+        const data = await response.json();
+        console.log('收到的响应数据:', data);
+        
+        // 隐藏加载指示器
+        hideLoadingIndicator();
+        
+        // 使用 setTimeout 确保 DOM 已更新
+        setTimeout(() => {
+            // 显示AI回复
+            appendMessage(data.response, 'assistant');
+            
+            // 滚动到底部
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }, 0);
+        
     } catch (error) {
-        loadingDiv.remove();
-        appendMessage('抱歉，请求失败，请稍后重试', 'ai');
-    } finally {
-        // 恢复输入
-        chatInput.disabled = false;
-        sendBtn.disabled = false;
-        chatInput.focus();
+        console.error('发送消息时出错:', error);
+        hideLoadingIndicator();
+        appendMessage('抱歉，发生错误，请稍后重试。', 'error');
     }
 }
 
+// 显示加载指示器
 function showLoadingIndicator() {
+    const chatMessages = document.getElementById('chatMessages');
     const loadingDiv = document.createElement('div');
-    loadingDiv.className = 'message-item ai-message';
-    loadingDiv.innerHTML = `
-        <div class="typing-indicator">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    `;
+    loadingDiv.id = 'loadingIndicator';
+    loadingDiv.className = 'chat-message assistant';
+    loadingDiv.innerHTML = '<div class="loading">正在思考...</div>';
     chatMessages.appendChild(loadingDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    return loadingDiv;
 }
 
+// 隐藏加载指示器
+function hideLoadingIndicator() {
+    const loadingDiv = document.getElementById('loadingIndicator');
+    if (loadingDiv) {
+        loadingDiv.remove();
+    }
+}
+
+// 添加消息到聊天界面
 function appendMessage(message, type) {
+    console.log('正在添加消息:', { message, type });
+    
+    const chatMessages = document.getElementById('chatMessages');
+    if (!chatMessages) {
+        console.error('未找到 chatMessages 元素');
+        return;
+    }
+    
     const messageDiv = document.createElement('div');
-    messageDiv.className = `message-item ${type}-message`;
+    messageDiv.className = `chat-message ${type}`;
     messageDiv.textContent = message;
+    
+    console.log('创建的消息元素:', messageDiv);
+    
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    console.log('消息已添加到聊天界面');
 }
 
 // 添加错误处理
