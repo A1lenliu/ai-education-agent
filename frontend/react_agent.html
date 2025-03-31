@@ -452,6 +452,130 @@
             <h2>智能体系统</h2>
         </div>
         
+        <!-- 添加描述区域 -->
+        <div class="system-description" style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.7); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-info-circle"></i> 关于智能体系统
+            </h3>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.6;">
+                智能体系统基于"思考-行动-观察"(ReAct)框架设计，能够分析您的问题，进行多步推理并执行相关操作，解决复杂任务和问题。
+            </p>
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-brain" style="color: var(--primary-color);"></i> 特点
+                    </h4>
+                    <ul style="list-style: none; padding-left: 1.5rem; color: var(--text-secondary);">
+                        <li style="margin-bottom: 0.5rem; position: relative;">
+                            <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
+                            多步骤推理能力，解决复杂问题
+                        </li>
+                        <li style="margin-bottom: 0.5rem; position: relative;">
+                            <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
+                            思考过程透明化，提供详细解析
+                        </li>
+                        <li style="position: relative;">
+                            <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
+                            支持编程、研究和复杂任务解决
+                        </li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-lightbulb" style="color: var(--primary-color);"></i> 使用提示
+                    </h4>
+                    <ul style="list-style: none; padding-left: 1.5rem; color: var(--text-secondary);">
+                        <li style="margin-bottom: 0.5rem; position: relative;">
+                            <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
+                            提供详细、明确的问题描述
+                        </li>
+                        <li style="margin-bottom: 0.5rem; position: relative;">
+                            <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
+                            涉及多步骤任务时，可分步提问
+                        </li>
+                        <li style="position: relative;">
+                            <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
+                            可选择性提供DeepSeek API密钥以提升性能
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-tools" style="color: var(--primary-color);"></i> 可用工具介绍
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem;">
+                    <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-file-alt" style="color: var(--primary-color); font-size: 1.1rem;"></i>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">文件读取</h5>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
+                            可以读取指定文件的内容，支持按行读取，帮助分析和理解代码文件。
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-search" style="color: var(--primary-color); font-size: 1.1rem;"></i>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">文件搜索</h5>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
+                            在指定目录中搜索匹配特定模式的文件，快速定位所需资源。
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-code" style="color: var(--primary-color); font-size: 1.1rem;"></i>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">代码分析</h5>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
+                            分析代码文件的结构和内容，包括行数统计、复杂度分析等功能。
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-search-plus" style="color: var(--primary-color); font-size: 1.1rem;"></i>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">内容搜索</h5>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
+                            在文件中搜索特定内容模式，支持正则表达式，帮助定位关键信息。
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-project-diagram" style="color: var(--primary-color); font-size: 1.1rem;"></i>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">依赖分析</h5>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
+                            分析代码的依赖关系，帮助理解模块间的连接和项目结构。
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-folder-open" style="color: var(--primary-color); font-size: 1.1rem;"></i>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">目录分析</h5>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
+                            分析目录结构，生成目录树，帮助了解项目组织和文件分布。
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(37, 99, 235, 0.05); border-radius: 0.75rem; border: 1px dashed rgba(37, 99, 235, 0.3);">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-info-circle" style="color: var(--primary-color);"></i>
+                        智能体使用"思考-行动-观察"循环处理问题，每次思考后会选择合适的工具执行操作，观察结果后再进一步思考，最终提供完整答案。
+                    </p>
+                </div>
+            </div>
+        </div>
+        
         <!-- 聊天区域 -->
         <div class="chat-container">
             <!-- 回答窗口 -->

@@ -775,8 +775,8 @@
             <button class="logout-btn" id="logout-btn">
                 <i class="fas fa-sign-out-alt"></i> 退出登录
             </button>
-        </div>
-    </div>
+                </div>
+            </div>
 
     <!-- 主要内容区 -->
     <div class="main-container">
@@ -795,21 +795,21 @@
             <button class="tab" data-tab="manage">
                 <i class="fas fa-folder"></i> 文档管理
             </button>
-        </div>
+                                </div>
         
         <!-- 以下内容将在后续修改中完成 -->
         
-        <!-- 问答对话界面 -->
+                                        <!-- 问答对话界面 -->
         <div class="tab-content active" id="chat-content">
-            <div class="chat-container">
-                <div class="chat-messages" id="chat-messages">
-                    <div class="system-message">
+                                            <div class="chat-container">
+                                                <div class="chat-messages" id="chat-messages">
+                                                    <div class="system-message">
                         <p>您好，我是基于知识库的AI助手，请输入您的问题，我将为您提供相关知识的准确回答。</p>
-                    </div>
-                </div>
+                                                    </div>
+                                                </div>
                 
-                <div class="chat-input-container">
-                    <div class="input-group">
+                                                <div class="chat-input-container">
+                                                    <div class="input-group">
                         <div class="textarea-wrapper">
                             <textarea id="chat-input" placeholder="请输入您的问题..." rows="3"></textarea>
                         </div>
@@ -823,14 +823,14 @@
                             </div>
                             <button class="send-btn" id="send-btn">
                                 <i class="fas fa-paper-plane"></i> 发送
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 文档上传界面 -->
+                                                        </button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- 文档上传界面 -->
         <div class="tab-content" id="upload-content">
             <div class="upload-section">
                 <div class="upload-card">
@@ -846,24 +846,24 @@
                                 </div>
                             </div>
                             <div class="form-hint">支持 txt, md, html, pdf, docx 格式</div>
-                        </div>
+                                                        </div>
                         <div class="form-group">
                             <label class="form-label" for="file-title">文档标题</label>
                             <input type="text" class="form-input" id="file-title" placeholder="请输入文档标题">
-                        </div>
+                                                        </div>
                         <div class="form-group">
                             <label class="form-label" for="file-author">作者</label>
                             <input type="text" class="form-input" id="file-author" placeholder="请输入作者名称">
-                        </div>
+                                                        </div>
                         <div class="form-group">
                             <label class="form-label" for="file-tags">标签</label>
                             <input type="text" class="form-input" id="file-tags" placeholder="使用逗号分隔多个标签">
-                        </div>
+                                                        </div>
                         <button type="submit" class="submit-btn">
                             <i class="fas fa-upload"></i> 上传文件
-                        </button>
-                    </form>
-                </div>
+                                                        </button>
+                                                    </form>
+                                                </div>
                 
                 <div class="upload-card">
                     <h3><i class="fas fa-edit"></i> 直接输入文本</h3>
@@ -871,53 +871,53 @@
                         <div class="form-group">
                             <label class="form-label" for="document-text">文档内容</label>
                             <textarea class="form-input" id="document-text" placeholder="请输入文档内容..."></textarea>
-                        </div>
+                                                        </div>
                         <div class="form-group">
                             <label class="form-label" for="text-title">文档标题</label>
                             <input type="text" class="form-input" id="text-title" placeholder="请输入文档标题">
-                        </div>
+                                                        </div>
                         <div class="form-group">
                             <label class="form-label" for="text-author">作者</label>
                             <input type="text" class="form-input" id="text-author" placeholder="请输入作者名称">
-                        </div>
+                                                        </div>
                         <div class="form-group">
                             <label class="form-label" for="text-tags">标签</label>
                             <input type="text" class="form-input" id="text-tags" placeholder="使用逗号分隔多个标签">
-                        </div>
+                                                        </div>
                         <button type="submit" class="submit-btn">
                             <i class="fas fa-save"></i> 保存文档
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 文档管理界面 -->
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- 文档管理界面 -->
         <div class="tab-content" id="manage-content">
             <div class="manage-section">
                 <div class="action-bar">
                     <h3>文档列表</h3>
                     <button class="refresh-btn" id="refresh-docs-btn">
                         <i class="fas fa-sync-alt"></i> 刷新列表
-                    </button>
-                </div>
+                                                </button>
+                                            </div>
                 
-                <div class="table-responsive">
+                                            <div class="table-responsive">
                     <table class="document-table">
-                        <thead>
-                            <tr>
-                                <th>文档ID</th>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>文档ID</th>
                                 <th>标题</th>
                                 <th>作者</th>
                                 <th>标签</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="documents-table">
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="documents-table">
                             <!-- 文档列表将在JavaScript中动态生成 -->
-                        </tbody>
-                    </table>
-                </div>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                 
                 <div class="empty-state" id="empty-state" style="display:none;">
                     <i class="fas fa-folder-open"></i>
