@@ -3,109 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AingDesk风格智能系统</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>AI教育辅助系统 - 北京交通大学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #475569;
+            --background-color: #f8fafc;
+            --card-color: #ffffff;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2.5rem;
+            background-color: var(--card-color);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .logo-area img {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+        }
+        
+        .logo-area h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+        
+        .logout-btn {
+            padding: 0.6rem 1.25rem;
+            background-color: var(--card-color);
+            color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .feature-card {
+            background-color: var(--card-color);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon i {
+            font-size: 1.5rem;
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            justify-content: center;
+        }
+        
+        .primary-button {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        }
+        
+        .primary-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+        
+        .secondary-button {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .secondary-button:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+        }
+        
+        .footer {
+            background-color: var(--card-color);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+        }
+        
+        .footer-logo span {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-logo {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- 左侧边栏 -->
-        <div class="sidebar">
-            <div class="logo">
-                <img src="img/BJTU.jpeg" alt="Logo">
-                <span>智能助手</span>
+    <!-- 顶部导航 -->
+    <div class="header">
+        <div class="logo-area">
+            <img src="img/BJTU.jpeg" alt="Logo">
+            <h1>AI教育辅助系统</h1>
+        </div>
+        
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> 退出登录
+        </button>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="container">
+        <div class="hero-section">
+            <h2 class="hero-title">人工智能赋能教育创新</h2>
+            <p class="hero-subtitle">集成先进大语言模型与智能检索技术，为教育工作者和学习者提供全方位智能辅助工具</p>
+        </div>
+        
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="feature-title">知识库问答系统</h3>
+                <p class="feature-desc">基于检索增强生成(RAG)技术，能够从已有文档和知识库中快速检索相关信息，生成准确、连贯的回答。</p>
+                <p class="feature-desc">适用于课程资料查询、学术文献分析、知识点梳理等场景，让信息检索与理解更加高效。</p>
+                <button class="cta-button primary-button" onclick="window.location.href='rag.html'">
+                    <i class="fas fa-arrow-right"></i> 立即使用
+                </button>
             </div>
             
-            <!-- 对话区域 -->
-            <div class="sidebar-section">
-                <button class="new-chat-btn">
-                    <i class="fas fa-plus"></i> 新建对话
-                </button>
-                <div class="chat-list">
-                    <!-- 对话列表将通过JavaScript动态添加 -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
                 </div>
-            </div>
-
-            <!-- 知识库区域 -->
-            <div class="sidebar-section">
-                <h3>知识库</h3>
-                <button class="new-kb-btn" onclick="window.location.href='knowledge.html'">
-                    <i class="fas fa-database"></i> 新建知识库
-                </button>
-                <button class="new-kb-btn" onclick="window.location.href='rag.html'">
-                    <i class="fas fa-search"></i> 知识库问答
-                </button>
-            </div>
-
-            <!-- 底部设置区域 -->
-            <div class="sidebar-bottom">
-                <button class="settings-btn" onclick="window.location.href='react_agent.html'">
-                    <i class="fas fa-robot"></i> 智能体
-                </button>
-                <button class="settings-btn">
-                    <i class="fas fa-cog"></i> 设置
-                </button>
-                <button class="logout-btn" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> 退出
+                <h3 class="feature-title">智能体系统</h3>
+                <p class="feature-desc">基于思考和行动(ReAct)框架的智能代理，能够分析复杂问题并执行一系列推理和操作，解决多步骤任务。</p>
+                <p class="feature-desc">特别适合于复杂问题解析、编程辅助、研究方法指导等需要深度思考的场景。</p>
+                <button class="cta-button primary-button" onclick="window.location.href='react_agent.html'">
+                    <i class="fas fa-arrow-right"></i> 立即使用
                 </button>
             </div>
         </div>
-
-        <!-- 主要内容区域 -->
-        <div class="main-content">
-            <!-- 顶部导航 -->
-            <div class="top-nav">
-                <div class="model-selector">
-                    <span>模型：</span>
-                    <select id="modelSelect">
-                        <option value="gpt-3.5">GPT-3.5</option>
-                        <option value="deepseek">DeepSeek</option>
-                    </select>
-                </div>
-                <button class="share-btn">
-                    <i class="fas fa-share"></i> 分享
-                </button>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="img/BJTU.jpeg" alt="Logo">
+                <span>AI教育辅助系统</span>
             </div>
-
-            <!-- 聊天区域 -->
-            <div class="chat-container">
-                <div id="chatMessages" class="chat-messages"></div>
-                <div id="ragResults" class="rag-results"></div>
-                
-                <!-- 底部输入区域 -->
-                <div class="input-area">
-                    <div class="input-wrapper">
-                        <textarea 
-                            id="chatInput" 
-                            placeholder="请输入您的问题..."
-                            rows="1"
-                            autocomplete="off"
-                        ></textarea>
-                        <div class="action-buttons">
-                            <button class="action-btn" title="无记忆">
-                                <i class="fas fa-brain"></i>
-                            </button>
-                            <button class="action-btn" title="上传附件">
-                                <i class="fas fa-paperclip"></i>
-                            </button>
-                            <button class="action-btn" title="知识库" onclick="window.location.href='rag.html'">
-                                <i class="fas fa-database"></i>
-                            </button>
-                            <button class="action-btn" title="联网搜索">
-                                <i class="fas fa-globe"></i>
-                            </button>
-                            <button id="sendBtn" class="send-btn">
-                                发送
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="copyright">
+                © 2025 北京交通大学 | 人工智能与智能教育实验室
             </div>
         </div>
     </div>
 
     <script src="js/config.js"></script>
-    <script src="js/main.js"></script>
     <script>
         // 确保API_BASE_URL已定义
         if (typeof API_BASE_URL === 'undefined') {
@@ -117,25 +348,6 @@
             localStorage.removeItem('username');
             window.location.href = 'login.html';
         }
-
-        // 添加事件监听器
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatInput = document.getElementById('chatInput');
-            const sendBtn = document.getElementById('sendBtn');
-
-            // 发送按钮点击事件
-            sendBtn.addEventListener('click', sendMessage);
-
-            // 回车发送消息
-            chatInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-
-            // 聚焦输入框
-            chatInput.focus();
-        });
     </script>
 </body>
 </html>
