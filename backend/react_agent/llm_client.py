@@ -3,7 +3,7 @@ import json
 import aiohttp
 import asyncio
 import ssl
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import logging
 
 logger = logging.getLogger(__name__)
@@ -166,4 +166,83 @@ Answer: 最终答案
                     await asyncio.sleep(wait_time)
                 else:
                     logger.error(f"达到最大重试次数 ({max_retries})，最后一次错误: {str(e)}")
+                    raise last_error
+                    
+    async def chat_completion(
+        self,
+        messages: List[Dict[str, str]],
+        max_tokens: int = 2000,
+        temperature: float = 0.7,
+        max_retries: int = 3
+    ) -> str:
+        """
+        使用消息格式进行聊天补全
+        
+        Args:
+            messages: 消息列表，包含role和content
+            max_tokens: 最大生成token数
+            temperature: 温度参数，控制随机性
+            max_retries: 最大重试次数
+            
+        Returns:
+            str: 生成的文本响应
+        """
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        data = {
+            "model": self.model,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "top_p": 0.95,
+            "frequency_penalty": 0,
+            "presence_penalty": 0
+        }
+        
+        # 重试逻辑
+        last_error = None
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"准备发送chat completion请求，尝试 #{attempt+1}")
+                logger.debug(f"请求消息: {json.dumps(messages, ensure_ascii=False)}")
+                
+                # 创建SSL上下文
+                ssl_context = None if self.verify_ssl else False
+                
+                timeout = aiohttp.ClientTimeout(total=self.timeout)
+                async with aiohttp.ClientSession(timeout=timeout) as session:
+                    async with session.post(
+                        f"{self.api_base}/chat/completions",
+                        headers=headers,
+                        json=data,
+                        ssl=ssl_context
+                    ) as response:
+                        logger.info(f"DeepSeek API 响应状态码: {response.status}")
+                        
+                        if response.status != 200:
+                            response_text = await response.text()
+                            error_msg = f"Chat completion API调用失败: {response_text}"
+                            logger.error(error_msg)
+                            raise Exception(error_msg)
+                        
+                        response_text = await response.text()
+                        result = json.loads(response_text)
+                        
+                        if "choices" not in result or not result["choices"]:
+                            error_msg = "API响应中没有找到choices字段"
+                            logger.error(error_msg)
+                            raise Exception(error_msg)
+                            
+                        return result["choices"][0]["message"]["content"]
+            except Exception as e:
+                last_error = e
+                if attempt < max_retries - 1:
+                    wait_time = 2.0 * (attempt + 1)  # 指数退避
+                    logger.warning(f"Chat completion第 {attempt + 1} 次尝试失败，{wait_time} 秒后重试: {str(e)}")
+                    await asyncio.sleep(wait_time)
+                else:
+                    logger.error(f"Chat completion达到最大重试次数 ({max_retries})，最后一次错误: {str(e)}")
                     raise last_error 
