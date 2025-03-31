@@ -10,7 +10,7 @@ import logging
 import httpx
 import json
 from typing import Optional, Dict, Any, List
-from .routes import rag, react_agent
+from .routes import react_agent
 import asyncio
 from .react_agent.agent import ReActAgent
 from .react_agent.llm_client import DeepSeekLLMClient
@@ -59,9 +59,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# 注册 RAG 路由
-app.include_router(rag.router)
 
 # 注册 ReAct 路由
 app.include_router(react_agent.router, prefix="/react-agent", tags=["react-agent"])
