@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List, Dict, Any
 from ..react_agent.agent import ReActAgent
 from ..react_agent.tools import ToolSet
 from ..react_agent.llm_client import DeepSeekLLMClient
@@ -18,7 +18,8 @@ class QueryRequest(BaseModel):
 
 class QueryResponse(BaseModel):
     result: str
-    conversation_history: list
+    conversation_history: List[Dict[str, str]]
+    tool_results: List[Dict[str, Any]] = []
 
 # 创建全局的ReAct智能体实例
 logger.info("初始化 ReAct 智能体...")
@@ -32,7 +33,8 @@ for name, tool_info in tool_set.tools.items():
     agent.add_tool(
         name=name,
         description=tool_info["description"],
-        parameters=tool_info["parameters"]
+        parameters=tool_info["parameters"],
+        handler=tool_info["handler"]
     )
 logger.info("工具注册完成")
 
@@ -49,19 +51,21 @@ async def process_query(request: QueryRequest):
         
         # 运行ReAct智能体
         logger.info("开始运行 ReAct 智能体...")
-        result = await agent.run(request.query)
+        result = await agent.execute(request.query)
         logger.info(f"ReAct 智能体运行完成，结果: {result}")
         
         # 返回结果和对话历史
         response = QueryResponse(
-            result=result,
+            result=result["response"],
             conversation_history=[
                 {
-                    "type": msg["role"],
-                    "content": msg["content"]
+                    "role": msg["role"],
+                    "content": msg["content"],
+                    "type": msg.get("type", "unknown")
                 }
-                for msg in agent.conversation_history
-            ]
+                for msg in result["history"]
+            ],
+            tool_results=result.get("tool_results", [])
         )
         logger.info("准备返回响应")
         return response

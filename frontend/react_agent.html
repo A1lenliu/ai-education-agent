@@ -3,51 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReAct智能体</title>
+    <title>ReAct 智能体</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        .conversation-item {
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
+        .response-window {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
         }
-        .thought { background-color: #e3f2fd; }
-        .action { background-color: #f3e5f5; }
-        .observation { background-color: #e8f5e9; }
-        .answer { background-color: #fff3e0; }
+        .response-content {
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #333;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            border: 1px solid #e9ecef;
+            min-height: 200px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .query-input {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .query-input textarea {
+            font-family: monospace;
+            resize: vertical;
+            min-height: 100px;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+        .query-input textarea:focus {
+            border-color: #2196f3;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+        .header {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            margin: 0 4px;
+            background-color: #2196f3;
+            border-radius: 50%;
+            animation: bounce 1s infinite;
+        }
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .thought {
+            color: #2196f3;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            white-space: pre-wrap;
+        }
+        .action {
+            color: #1976d2;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            white-space: pre-wrap;
+        }
+        .observation {
+            color: #4caf50;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            white-space: pre-wrap;
+        }
+        .answer {
+            color: #f44336;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            white-space: pre-wrap;
+        }
+        .divider {
+            border-top: 1px solid #e9ecef;
+            margin: 1rem 0;
+        }
     </style>
 </head>
-<body class="bg-gray-100">
-    <script>
-        // 直接定义API_BASE_URL
-        const API_BASE_URL = 'http://localhost:8001';
-        console.log('API_BASE_URL已设置:', API_BASE_URL);
-    </script>
-    <script>
-        // 检查登录状态
-        function checkLogin() {
-            const username = localStorage.getItem('username');
-            if (!username) {
-                window.location.href = 'login.html';
-                return;
-            }
-        }
-        
-        // 页面加载时检查登录状态
-        window.onload = checkLogin;
-    </script>
+<body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold">ReAct智能体</h1>
-            <div class="flex gap-4">
-                <span class="text-gray-600">欢迎，<span id="username"></span></span>
-                <button onclick="logout()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    退出登录
-                </button>
+        <!-- 头部区域 -->
+        <div class="header">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-gray-800">ReAct 智能体</h1>
+                <div class="flex items-center gap-4">
+                    <span class="text-gray-600">欢迎，<span id="username" class="font-semibold"></span></span>
+                    <button onclick="logout()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors">
+                        退出登录
+                    </button>
+                </div>
             </div>
         </div>
-        
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+
+        <!-- 输入区域 -->
+        <div class="query-input">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="api-key">
                     DeepSeek API密钥（可选）
@@ -59,24 +144,17 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="query">
                     输入您的问题
                 </label>
-                <textarea id="query" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                <textarea id="query" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
             </div>
             
-            <button onclick="submitQuery()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button onclick="submitQuery()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline transition-colors">
                 提交
             </button>
         </div>
         
-        <div id="loading" class="hidden text-center mb-6">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-        </div>
-        
-        <div id="result" class="bg-white rounded-lg shadow-lg p-6 hidden">
-            <h2 class="text-xl font-bold mb-4">对话历史</h2>
-            <div id="conversation-history"></div>
-            
-            <h2 class="text-xl font-bold mt-6 mb-4">最终答案</h2>
-            <div id="final-answer" class="bg-gray-100 p-4 rounded"></div>
+        <!-- 回答窗口 -->
+        <div id="response-window" class="response-window hidden">
+            <div class="response-content" id="response-content"></div>
         </div>
     </div>
 
@@ -90,67 +168,64 @@
             window.location.href = 'login.html';
         }
 
+        // 处理响应数据
+        async function processResponse(data) {
+            const responseContent = document.getElementById('response-content');
+            
+            // 直接显示 LLM 的响应内容
+            if (data.response) {
+                responseContent.innerHTML = data.response;
+            } else {
+                responseContent.innerHTML = '没有收到响应';
+            }
+        }
+
+        // 提交查询函数
         async function submitQuery() {
             const query = document.getElementById('query').value;
             const apiKey = document.getElementById('api-key').value;
-            const loading = document.getElementById('loading');
-            const result = document.getElementById('result');
+            const responseWindow = document.getElementById('response-window');
+            const responseContent = document.getElementById('response-content');
             
             if (!query) {
                 alert('请输入问题');
                 return;
             }
             
-            console.log('开始发送请求...');
-            console.log('当前API_BASE_URL:', API_BASE_URL);
-            loading.classList.remove('hidden');
-            result.classList.add('hidden');
+            // 显示回答窗口
+            responseWindow.classList.remove('hidden');
+            responseContent.textContent = '正在思考...';
             
             try {
-                const url = `${API_BASE_URL}/llm/chat`;
-                console.log('发送请求到:', url);
-                
-                const response = await fetch(url, {
+                // 发送请求到服务器
+                const response = await fetch('http://localhost:8001/llm/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         message: query,
-                        history: []  // 如果需要保持对话历史，可以从 localStorage 中获取
+                        history: [],
+                        tool_results: [],
+                        api_key: apiKey || undefined
                     })
                 });
                 
-                console.log('收到响应:', response.status);
-                
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('请求失败:', errorText);
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();
-                console.log('解析响应数据:', data);
                 
-                // 显示对话历史
-                const historyDiv = document.getElementById('conversation-history');
-                historyDiv.innerHTML = data.history.map(item => `
-                    <div class="conversation-item ${item.role.toLowerCase()}">
-                        <strong>${item.role}:</strong> ${item.content}
-                    </div>
-                `).join('');
+                // 处理响应数据
+                await processResponse(data);
                 
-                // 显示最终答案
-                document.getElementById('final-answer').textContent = data.response;
-                
-                result.classList.remove('hidden');
             } catch (error) {
                 console.error('发生错误:', error);
-                alert('发生错误: ' + error.message);
-            } finally {
-                loading.classList.add('hidden');
+                responseContent.textContent = `错误: ${error.message}`;
             }
         }
     </script>
 </body>
-</html> 
+</html>

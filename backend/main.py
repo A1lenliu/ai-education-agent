@@ -7,27 +7,46 @@ import openai
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import logging
-import httpx  # 用于发送HTTP请求
+import httpx
 import json
-from typing import Optional
+from typing import Optional, Dict, Any, List
 from .routes import rag, react_agent
+import asyncio
+from .react_agent.agent import ReActAgent
+from .react_agent.llm_client import DeepSeekLLMClient
+from .react_agent.tools import ToolSet
 
 # 设置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# 创建工具集实例
+tool_set = ToolSet()
+
+# 创建 LLM 客户端
+llm_client = DeepSeekLLMClient()
+
+# 创建 ReAct 智能体
+agent = ReActAgent(llm_client)
+
+# 注册所有工具
+for tool_name, tool_info in tool_set.tools.items():
+    agent.add_tool(
+        name=tool_name,
+        description=tool_info["description"],
+        parameters=tool_info["parameters"],
+        handler=tool_info["handler"]
+    )
+
 # 添加请求模型
 class ChatRequest(BaseModel):
     message: str
-    history: list = []  # 聊天历史（可选）
+    history: List[Dict[str, str]] = []
+    tool_results: List[Dict[str, Any]] = []
+    api_key: Optional[str] = None
 
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "message": "你好",
-                "history": []
-            }
-        }
+class ToolRequest(BaseModel):
+    parameters: Dict[str, Any]
 
 # 初始化 FastAPI 应用
 app = FastAPI()
@@ -35,10 +54,10 @@ app = FastAPI()
 # 添加 CORS 中间件配置
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:8000", "http://localhost:8001"],  # 允许的前端域名
+    allow_origins=["http://localhost:3000", "http://localhost:8000", "http://localhost:8001"],
     allow_credentials=True,
-    allow_methods=["*"],  # 允许所有方法
-    allow_headers=["*"],  # 允许所有头部
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # 注册 RAG 路由
@@ -46,6 +65,41 @@ app.include_router(rag.router)
 
 # 注册 ReAct 路由
 app.include_router(react_agent.router, prefix="/react-agent", tags=["react-agent"])
+
+# LLM 聊天路由
+@app.post("/llm/chat")
+async def chat(request: ChatRequest):
+    """处理 LLM 聊天请求"""
+    try:
+        # 设置 API 密钥
+        if request.api_key:
+            llm_client.set_api_key(request.api_key)
+        
+        # 执行 ReAct 循环
+        result = await agent.execute(request.message)
+        
+        return {
+            "response": result["response"],
+            "history": result["history"],
+            "tool_results": result["tool_results"]  # 确保返回工具结果
+        }
+    except Exception as e:
+        logger.error(f"处理请求时发生错误: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 工具路由
+@app.post("/tools/{tool_name}")
+async def execute_tool(tool_name: str, request: ToolRequest):
+    """执行指定的工具"""
+    try:
+        logger.info(f"执行工具 {tool_name}，参数: {request.parameters}")
+        result = await tool_set.execute_tool(tool_name, request.parameters)
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logger.error(f"执行工具时出错: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # 获取数据库会话
 def get_db():
@@ -86,67 +140,6 @@ DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"  # 修改为�
 openai.api_key = DEEPSEEK_API_KEY
 openai.api_base = "https://api.deepseek.com/v1"  # 基础URL
 openai.api_type = "deepseek"  # 指定API类型
-
-# LLM 处理端点
-@app.post("/llm/chat")
-async def chat(request: ChatRequest):
-    logger.info(f"收到聊天请求: {request.message}")
-    logger.info(f"请求数据: {request.dict()}")
-    
-    try:
-        # 准备请求数据
-        headers = {
-            "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
-            "Content-Type": "application/json"
-        }
-        
-        # 构建消息列表
-        messages = []
-        if request.history:
-            messages.extend(request.history)
-        messages.append({"role": "user", "content": request.message})
-        
-        data = {
-            "model": "deepseek-chat",
-            "messages": messages,
-            "temperature": 0.7,
-            "max_tokens": 2000
-        }
-
-        logger.info(f"准备发送到 DeepSeek API 的数据: {json.dumps(data, ensure_ascii=False)}")
-
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            try:
-                response = await client.post(
-                    DEEPSEEK_API_URL,
-                    headers=headers,
-                    json=data
-                )
-                
-                logger.info(f"DeepSeek API 响应状态码: {response.status_code}")
-                logger.info(f"DeepSeek API 响应内容: {response.text}")
-
-                if response.status_code == 200:
-                    result = response.json()
-                    ai_response = result['choices'][0]['message']['content']
-                    return {
-                        "response": ai_response,
-                        "history": messages + [{"role": "assistant", "content": ai_response}]
-                    }
-                else:
-                    error_msg = f"DeepSeek API 错误: {response.text}"
-                    logger.error(error_msg)
-                    raise HTTPException(status_code=response.status_code, detail=error_msg)
-                    
-            except httpx.RequestError as e:
-                error_msg = f"请求 DeepSeek API 时发生错误: {str(e)}"
-                logger.error(error_msg)
-                raise HTTPException(status_code=500, detail=error_msg)
-                
-    except Exception as e:
-        error_msg = f"处理请求时发生错误: {str(e)}"
-        logger.error(error_msg)
-        raise HTTPException(status_code=500, detail=error_msg)
 
 # 添加测试路由
 @app.get("/test")
