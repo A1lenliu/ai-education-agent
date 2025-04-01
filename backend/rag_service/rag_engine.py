@@ -224,6 +224,56 @@ class RAGEngine:
         except Exception as e:
             logger.error(f"获取文档ID失败: {str(e)}")
             return []
+    
+    def get_document_content(self, doc_id: str) -> Dict[str, Any]:
+        """
+        获取文档的完整内容
+        
+        Args:
+            doc_id: 文档ID
+            
+        Returns:
+            包含文档内容和元数据的字典
+        """
+        try:
+            # 查询与文档ID匹配的所有块
+            results = self.collection.get(
+                where={"doc_id": doc_id}
+            )
+            
+            if not results or not results["documents"] or len(results["documents"]) == 0:
+                logger.error(f"未找到文档: {doc_id}")
+                return None
+            
+            # 按块ID排序
+            chunks = []
+            for i, doc in enumerate(results["documents"]):
+                chunk_id = results["metadatas"][i].get("chunk_id", 0)
+                chunks.append((chunk_id, doc, results["metadatas"][i]))
+            
+            chunks.sort(key=lambda x: x[0])
+            
+            # 合并所有块的内容
+            content = " ".join([chunk[1] for chunk in chunks])
+            
+            # 获取第一个块的元数据作为文档元数据
+            metadata = chunks[0][2] if chunks else {}
+            
+            # 从元数据中获取标题等信息
+            title = metadata.get("title", "未命名文档")
+            author = metadata.get("author", "")
+            tags = metadata.get("tags", "")
+            
+            return {
+                "doc_id": doc_id,
+                "title": title,
+                "author": author,
+                "tags": tags,
+                "content": content
+            }
+        except Exception as e:
+            logger.error(f"获取文档内容失败: {str(e)}")
+            return None
             
     def generate_prompt(self, query: str, context: List[Dict[str, Any]]) -> List[Dict[str, str]]:
         """

@@ -173,6 +173,21 @@ async def get_documents():
         logger.error(f"获取文档列表时出错: {str(e)}")
         raise HTTPException(status_code=500, detail=f"获取文档列表失败: {str(e)}")
 
+@router.get("/document/content")
+async def get_document_content(doc_id: str):
+    """
+    获取指定文档的内容
+    """
+    try:
+        document = rag_engine.get_document_content(doc_id)
+        if document:
+            return {"status": "success", "document": document}
+        else:
+            raise HTTPException(status_code=404, detail=f"未找到文档 {doc_id}")
+    except Exception as e:
+        logger.error(f"获取文档内容时出错: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"获取文档内容失败: {str(e)}")
+
 @router.post("/query")
 async def query_rag(request: RAGQueryRequest):
     """
