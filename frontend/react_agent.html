@@ -581,6 +581,12 @@
             <!-- 回答窗口 -->
             <div id="response-window" class="response-window hidden">
                 <div class="response-content" id="response-content"></div>
+                <!-- 添加滚动到底部按钮 -->
+                <div style="text-align: right; margin-top: 0.5rem;">
+                    <button onclick="scrollToBottom()" style="background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; padding: 0.4rem 0.8rem; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: var(--shadow-sm);">
+                        <i class="fas fa-arrow-down"></i> 滚动到底部
+                    </button>
+                </div>
             </div>
             
             <!-- 输入区域 -->
@@ -620,6 +626,18 @@
             window.location.href = 'login.html';
         }
 
+        // 确保页面从顶部开始显示
+        function scrollToTop() {
+            window.scrollTo(0, 0);
+            const chatContainer = document.querySelector('.chat-container');
+            if (chatContainer) {
+                chatContainer.scrollTop = 0;
+            }
+        }
+        
+        // 页面加载时滚动到顶部
+        scrollToTop();
+        
         // 优化输入框自动调整高度
         const textarea = document.getElementById('query');
         textarea.addEventListener('input', function() {
@@ -678,14 +696,15 @@
             responseWindow.classList.remove('hidden');
             setTimeout(() => {
                 responseWindow.classList.add('visible');
-                scrollToBottom();
+                // 不需要滚动到底部
+                // scrollToBottom();
             }, 10);
             
             if (data.response) {
                 // 使用打字机效果显示新内容，速度设为30
                 await typeWriter(responseContent, data.response, 30);
-                // 确保内容加载后滚动到底部
-                setTimeout(scrollToBottom, 100);
+                // 不需要滚动到底部
+                // setTimeout(scrollToBottom, 100);
             } else {
                 await typeWriter(responseContent, '没有收到响应', 30);
             }
@@ -693,7 +712,8 @@
 
         // 添加窗口大小改变时的处理
         window.addEventListener('resize', function() {
-            scrollToBottom();
+            // 不自动滚动到底部
+            // scrollToBottom();
         });
 
         // 提交查询函数
@@ -776,6 +796,18 @@
 
         // 自动聚焦输入框
         document.getElementById('query').focus();
+        
+        // 页面DOM加载完成后滚动到顶部
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM加载完成，滚动到顶部');
+            scrollToTop();
+        });
+        
+        // 页面完全加载后再次确保滚动到顶部
+        window.onload = function() {
+            console.log('页面完全加载，滚动到顶部');
+            scrollToTop();
+        };
     </script>
 </body>
 </html>
