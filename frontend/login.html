@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录 - 北京交通大学智能系统</title>
+    <title>Login - Beijing Jiaotong University Intelligent System</title>
     <style>
         * {
             margin: 0;
@@ -154,21 +154,21 @@
     <div class="auth-container">
         <div class="auth-box">
             <div class="auth-header">
-                <h1>北京交通大学智能系统</h1>
-                <p>欢迎使用智能问答系统</p>
+                <h1>Beijing Jiaotong University Intelligent System</h1>
+                <p>Welcome to Intelligent Q&A System</p>
             </div>
             <form id="loginForm" class="auth-form">
                 <div class="input-group">
-                    <label for="username">用户名</label>
+                    <label for="username">Username</label>
                     <input type="text" id="username" name="username" required>
                 </div>
                 <div class="input-group">
-                    <label for="password">密码</label>
+                    <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit">登录</button>
+                <button type="submit">Login</button>
                 <p class="auth-link">
-                    还没有账号？<a href="register.html">立即注册</a>
+                    Don't have an account? <a href="register.html">Register Now</a>
                 </p>
                 <div id="message" class="message"></div>
             </form>
@@ -197,16 +197,16 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    showMessage('登录成功！正在跳转...', false);
+                    showMessage('Login successful! Redirecting...', false);
                     localStorage.setItem('username', username);
                     setTimeout(() => {
                         window.location.href = 'dashboard.html';
                     }, 1000);
                 } else {
-                    showMessage(data.detail || '登录失败', true);
+                    showMessage(data.detail || 'Login failed', true);
                 }
             } catch (error) {
-                showMessage('服务器错误，请稍后重试', true);
+                showMessage('Server error, please try again later', true);
             }
         });
 

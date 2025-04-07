@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>知识库问答系统 - AI教育辅助系统</title>
+    <title>Knowledge Base Q&A System - AI Education Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- 先加载config.js确保配置在使用前已定义 -->
     <script src="js/config.js"></script>
@@ -1655,43 +1655,43 @@
     <div class="header">
         <div class="logo-area">
             <img src="img/BJTU.jpeg" alt="Logo">
-            <h1>AI教育辅助系统</h1>
+            <h1>AI Education Assistant</h1>
         </div>
         
         <div class="nav-links">
             <a href="dashboard.html" class="nav-link">
-                <i class="fas fa-tachometer-alt"></i> 控制面板
+                <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
             <a href="react_agent.html" class="nav-link">
-                <i class="fas fa-robot"></i> 智能体系统
+                <i class="fas fa-robot"></i> Agent System
             </a>
             <a href="rag.html" class="nav-link active">
-                <i class="fas fa-search"></i> 知识库问答
+                <i class="fas fa-search"></i> Knowledge Base Q&A
             </a>
             <button class="logout-btn" id="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> 退出登录
+                <i class="fas fa-sign-out-alt"></i> Logout
             </button>
-                </div>
-            </div>
+        </div>
+    </div>
 
     <!-- 主要内容区 -->
     <div class="main-container">
         <div class="page-title">
             <i class="fas fa-search"></i>
-            <h2>知识库问答系统</h2>
+            <h2>Knowledge Base Q&A System</h2>
         </div>
         
         <div class="tabs">
             <button class="tab active" data-tab="chat">
-                <i class="fas fa-comment-dots"></i> 问答对话
+                <i class="fas fa-comment-dots"></i> Q&A Chat
             </button>
             <button class="tab" data-tab="upload">
-                <i class="fas fa-upload"></i> 文档上传
+                <i class="fas fa-upload"></i> Document Upload
             </button>
             <button class="tab" data-tab="manage">
-                <i class="fas fa-folder"></i> 文档管理
+                <i class="fas fa-folder"></i> Document Management
             </button>
-                                </div>
+        </div>
         
         <!-- 以下内容将在后续修改中完成 -->
         
@@ -1701,47 +1701,47 @@
                 <!-- 添加知识库介绍区域 -->
                 <div class="system-description" style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.7); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                     <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-info-circle"></i> 关于知识库问答系统
+                        <i class="fas fa-info-circle"></i> About Knowledge Base Q&A System
                     </h3>
                     <p style="margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.6;">
-                        知识库问答系统基于检索增强生成(RAG)技术设计，能够从您上传的文档中检索相关信息，提供准确、有根据的回答，并显示信息来源。
+                        The Knowledge Base Q&A System is based on Retrieval Augmented Generation (RAG) technology, which can retrieve relevant information from the documents you upload, provide accurate and evidence-based answers, and display information sources.
                     </p>
                     <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;">
                         <div style="flex: 1; min-width: 200px;">
                             <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-brain" style="color: var(--primary-color);"></i> 特点
+                                <i class="fas fa-brain" style="color: var(--primary-color);"></i> Features
                             </h4>
                             <ul style="list-style: none; padding-left: 1.5rem; color: var(--text-secondary);">
                                 <li style="margin-bottom: 0.5rem; position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    精准检索文档知识，减少幻觉产生
+                                    Precise retrieval of document knowledge, reducing hallucination
                                 </li>
                                 <li style="margin-bottom: 0.5rem; position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    提供参考来源，增强答案可信度
+                                    Provide reference sources, enhancing the credibility of answers
                                 </li>
                                 <li style="position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    支持多种文档格式，易于构建知识库
+                                    Support multiple document formats, making it easy to build a knowledge base
                                 </li>
                             </ul>
                         </div>
                         <div style="flex: 1; min-width: 200px;">
                             <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-lightbulb" style="color: var(--primary-color);"></i> 使用提示
+                                <i class="fas fa-lightbulb" style="color: var(--primary-color);"></i> Usage Tips
                             </h4>
                             <ul style="list-style: none; padding-left: 1.5rem; color: var(--text-secondary);">
                                 <li style="margin-bottom: 0.5rem; position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    先上传相关文档到知识库
+                                    Upload relevant documents to the knowledge base first
                                 </li>
                                 <li style="margin-bottom: 0.5rem; position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    提出明确、具体的问题获得最佳回答
+                                    Ask clear and specific questions to get the best answers
                                 </li>
                                 <li style="position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    可切换开关使用/不使用知识库增强
+                                    Switch between using/not using the knowledge base enhancement
                                 </li>
                             </ul>
                         </div>
@@ -1749,46 +1749,46 @@
                     
                     <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
                         <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-tools" style="color: var(--primary-color);"></i> 系统功能
+                            <i class="fas fa-tools" style="color: var(--primary-color);"></i> System Functions
                         </h4>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem;">
                             <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                                     <i class="fas fa-comment-dots" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">智能问答</h5>
+                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Smart Question Answering</h5>
                                 </div>
                                 <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                                    根据您的问题自动从知识库中检索相关信息，生成准确、有根据的回答。
+                                    Automatically retrieve relevant information from the knowledge base and generate accurate and evidence-based answers based on your questions.
                                 </p>
                             </div>
                             
                             <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                                     <i class="fas fa-upload" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">文档上传</h5>
+                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Document Upload</h5>
                                 </div>
                                 <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                                    支持上传PDF、Word、TXT等多种格式文档，自动提取和索引内容。
+                                    Support uploading PDF, Word, TXT, etc. documents, automatically extracting and indexing content.
                                 </p>
                             </div>
                             
                             <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                                     <i class="fas fa-folder" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">文档管理</h5>
+                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Document Management</h5>
                                 </div>
                                 <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                                    查看、预览和删除已上传的文档，管理您的知识库内容。
+                                    View, preview, and delete uploaded documents, manage your knowledge base content.
                                 </p>
                             </div>
                             
                             <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                                     <i class="fas fa-quote-right" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">引用来源</h5>
+                                    <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Reference Sources</h5>
                                 </div>
                                 <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                                    回答中自动引用信息来源，提高透明度和可信度，方便验证。
+                                    Automatically reference information sources in answers, improving transparency and credibility, making it easy to verify.
                                 </p>
                             </div>
                         </div>
@@ -1796,7 +1796,7 @@
                         <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(79, 70, 229, 0.05); border-radius: 0.75rem; border: 1px dashed rgba(79, 70, 229, 0.3);">
                             <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
                                 <i class="fas fa-info-circle" style="color: var(--primary-color);"></i>
-                                开始使用前，请先访问"文档上传"标签页上传您的文档。上传后，系统会自动处理和索引内容，然后您就可以在此页面进行提问了。
+                                Before using, please visit the "Document Upload" tab page to upload your documents. After uploading, the system will automatically process and index the content, and then you can ask questions on this page.
                             </p>
                         </div>
                     </div>
@@ -1804,14 +1804,14 @@
 
                 <div class="chat-messages" id="chat-messages">
                     <div class="system-message">
-                        <p>您好，我是基于知识库的AI助手，请输入您的问题，我将为您提供相关知识的准确回答。</p>
+                        <p>Hello, I'm an AI assistant based on the knowledge base. Please enter your question, and I'll provide you with accurate answers based on the relevant knowledge.</p>
                     </div>
                 </div>
 
                 <div class="chat-input-container">
                     <div class="input-group">
                         <div class="textarea-wrapper">
-                            <textarea id="chat-input" placeholder="请输入您的问题..." rows="3"></textarea>
+                            <textarea id="chat-input" placeholder="Please enter your question..." rows="3"></textarea>
                         </div>
                         <div class="input-actions">
                             <div class="rag-toggle">
@@ -1819,10 +1819,10 @@
                                     <input type="checkbox" id="use-rag-check" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
-                                <span>使用知识库增强回答</span>
+                                <span>Use knowledge base enhanced answers</span>
                             </div>
                             <button class="send-btn" id="send-btn">
-                                <i class="fas fa-paper-plane"></i> 发送
+                                <i class="fas fa-paper-plane"></i> Send
                             </button>
                         </div>
                     </div>
@@ -1836,16 +1836,16 @@
                 <!-- 添加上传指南 -->
                 <div class="upload-guide" style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.7); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                     <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-upload"></i> 文档上传指南
+                        <i class="fas fa-upload"></i> Document Upload Guide
                     </h3>
                     <p style="margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.6;">
-                        通过上传相关文档，您可以构建自己的知识库，系统将自动分析文档内容并建立索引，使AI能够从中检索信息回答问题。
+                        By uploading relevant documents, you can build your own knowledge base. The system will automatically analyze the document content and establish an index, allowing AI to retrieve information to answer questions.
                     </p>
                     
                     <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 1rem;">
                         <div style="flex: 1; min-width: 300px;">
                             <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-file-alt" style="color: var(--primary-color);"></i> 支持的文件格式
+                                <i class="fas fa-file-alt" style="color: var(--primary-color);"></i> Supported File Formats
                             </h4>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
                                 <span style="display: inline-block; padding: 0.35rem 0.75rem; background: rgba(79, 70, 229, 0.1); border-radius: 1rem; font-size: 0.85rem; color: var(--primary-color);">
@@ -1865,20 +1865,20 @@
                         
                         <div style="flex: 1; min-width: 300px;">
                             <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-info-circle" style="color: var(--primary-color);"></i> 上传说明
+                                <i class="fas fa-info-circle" style="color: var(--primary-color);"></i> Upload Instructions
                             </h4>
                             <ul style="list-style: none; padding-left: 1.5rem; color: var(--text-secondary);">
                                 <li style="margin-bottom: 0.5rem; position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    单个文件最大支持50MB
+                                    Single file support up to 50MB
                                 </li>
                                 <li style="margin-bottom: 0.5rem; position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    可选添加标题、作者和标签以便管理
+                                    Optional title, author, and tags for management
                                 </li>
                                 <li style="position: relative;">
                                     <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                                    支持批量上传和拖放操作
+                                    Support batch upload and drag-and-drop operations
                                 </li>
                             </ul>
                         </div>
@@ -1887,13 +1887,13 @@
                     <div style="margin-top: 1rem; padding: 1rem; background-color: rgba(79, 70, 229, 0.05); border-radius: 0.75rem; border: 1px dashed rgba(79, 70, 229, 0.3);">
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
                             <i class="fas fa-lightbulb" style="color: var(--primary-color);"></i>
-                            <span>提示：上传与您问题领域相关的文档可以获得更准确的回答。文档成功上传后，您可以在"文档管理"标签页中查看和管理它们。</span>
+                            <span>Tip: Uploading documents related to your question topic can get you a more accurate answer. After the document is successfully uploaded, you can view and manage it in the "Document Management" tab page.</span>
                         </p>
                     </div>
                 </div>
                 
                 <div class="upload-section">
-                    <h3><i class="fas fa-file-upload"></i> 上传文档</h3>
+                    <h3><i class="fas fa-file-upload"></i> Upload Documents</h3>
                     <p class="section-desc"></p>
                     
                     <div class="upload-area">
@@ -1902,40 +1902,40 @@
                             <div class="file-drop-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
                             </div>
-                            <p class="drop-text">拖放文件到此处或</p>
-                            <button id="select-files-btn" class="select-files-btn">选择文件</button>
+                            <p class="drop-text">Drag and drop files here or</p>
+                            <button id="select-files-btn" class="select-files-btn">Select Files</button>
                         </div>
                         
                         <!-- 添加文档元数据字段 -->
                         <div class="document-metadata">
                             <div class="form-group">
-                                <label for="file-title">文档标题 (可选)</label>
-                                <input type="text" id="file-title" class="form-input" placeholder="输入文档标题">
+                                <label for="file-title">Document Title (Optional)</label>
+                                <input type="text" id="file-title" class="form-input" placeholder="Enter document title">
                             </div>
                             <div class="form-group">
-                                <label for="file-author">作者 (可选)</label>
-                                <input type="text" id="file-author" class="form-input" placeholder="输入作者名称">
+                                <label for="file-author">Author (Optional)</label>
+                                <input type="text" id="file-author" class="form-input" placeholder="Enter author name">
                             </div>
                             <div class="form-group">
-                                <label for="file-tags">标签 (可选，用逗号分隔)</label>
-                                <input type="text" id="file-tags" class="form-input" placeholder="例如: 教育,AI,研究">
+                                <label for="file-tags">Tags (Optional, separated by commas)</label>
+                                <input type="text" id="file-tags" class="form-input" placeholder="e.g., education, AI, research">
                             </div>
                         </div>
                         
                         <div class="upload-queue">
                             <div class="queue-header">
-                                <h4>上传队列</h4>
+                                <h4>Upload Queue</h4>
                                 <div class="queue-actions">
                                     <button id="upload-all-btn" class="action-btn primary-action-btn" disabled>
-                                        <i class="fas fa-upload"></i> 全部上传
+                                        <i class="fas fa-upload"></i> Upload All
                                     </button>
                                     <button id="clear-queue-btn" class="action-btn secondary-action-btn" disabled>
-                                        <i class="fas fa-times"></i> 清空队列
+                                        <i class="fas fa-times"></i> Clear Queue
                                     </button>
                                 </div>
                             </div>
                             <div class="queue-body">
-                                <div id="empty-queue-message" class="empty-queue-message">暂无待上传文件</div>
+                                <div id="empty-queue-message" class="empty-queue-message">No files to upload</div>
                                 <ul id="upload-queue-list" class="upload-queue-list"></ul>
                             </div>
                         </div>
@@ -1946,10 +1946,10 @@
                 <div class="debug-container" style="margin-top: 2rem;">
                     <div class="debug-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                         <h4 style="margin: 0; font-size: 1rem; color: var(--text-secondary);">
-                            <i class="fas fa-bug" style="margin-right: 0.5rem;"></i> 调试信息
+                            <i class="fas fa-bug" style="margin-right: 0.5rem;"></i> Debug Information
                         </h4>
                         <button id="toggle-debug-btn" class="action-btn secondary-action-btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
-                            显示日志
+                            Show Logs
                         </button>
                     </div>
                     <div id="debug-info" class="debug-info" style="display: none;"></div>
@@ -1957,7 +1957,7 @@
                     <!-- API测试工具 -->
                     <div class="debug-header" style="display: flex; justify-content: space-between; align-items: center; margin: 1.5rem 0 0.5rem 0;">
                         <h4 style="margin: 0; font-size: 1rem; color: var(--text-secondary);">
-                            <i class="fas fa-tools" style="margin-right: 0.5rem;"></i> API测试工具
+                            <i class="fas fa-tools" style="margin-right: 0.5rem;"></i> API Test Tool
                         </h4>
                     </div>
                     <div class="api-test-container" style="background-color: #f8f9fa; padding: 1rem; border-radius: 0.5rem; border: 1px solid #dee2e6;">
@@ -1967,11 +1967,11 @@
                                 <option value="POST">POST</option>
                                 <option value="DELETE">DELETE</option>
                             </select>
-                            <input type="text" id="api-test-url" placeholder="输入API URL" style="flex: 1; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid var(--border-color);" value="">
-                            <button id="api-test-btn" class="action-btn primary-action-btn" style="padding: 0.5rem 1rem;">测试</button>
+                            <input type="text" id="api-test-url" placeholder="Enter API URL" style="flex: 1; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid var(--border-color);" value="">
+                            <button id="api-test-btn" class="action-btn primary-action-btn" style="padding: 0.5rem 1rem;">Test</button>
                         </div>
                         <div>
-                            <textarea id="api-test-body" placeholder="请求body (JSON格式，仅POST)" style="width: 100%; height: 100px; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid var(--border-color); margin-bottom: 1rem;"></textarea>
+                            <textarea id="api-test-body" placeholder="Request body (JSON format, only POST)" style="width: 100%; height: 100px; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid var(--border-color); margin-bottom: 1rem;"></textarea>
                         </div>
                         <div id="api-test-result" style="background-color: #ffffff; padding: 1rem; border-radius: 0.375rem; border: 1px solid var(--border-color); white-space: pre-wrap; font-family: monospace; max-height: 200px; overflow-y: auto;"></div>
                     </div>
@@ -2018,10 +2018,10 @@
                                 document.getElementById('toggle-debug-btn').addEventListener('click', function() {
                                     if (debugInfo.style.display === 'none') {
                                         debugInfo.style.display = 'block';
-                                        this.textContent = '隐藏日志';
+                                        this.textContent = 'Hide Logs';
                                     } else {
                                         debugInfo.style.display = 'none';
-                                        this.textContent = '显示日志';
+                                        this.textContent = 'Show Logs';
                                     }
                                 });
                             }
@@ -2047,11 +2047,11 @@
                                     const url = apiTestUrl.value;
                                     
                                     if (!url) {
-                                        apiTestResult.textContent = '请输入API URL';
+                                        apiTestResult.textContent = 'Please enter API URL';
                                         return;
                                     }
                                     
-                                    apiTestResult.textContent = '正在请求...';
+                                    apiTestResult.textContent = 'Sending request...';
                                     
                                     const options = {
                                         method: method,
@@ -2064,7 +2064,7 @@
                                             options.body = JSON.stringify(bodyData);
                                             options.headers['Content-Type'] = 'application/json';
                                         } catch (e) {
-                                            apiTestResult.textContent = '请求body必须是有效的JSON格式';
+                                            apiTestResult.textContent = 'Request body must be a valid JSON format';
                                             return;
                                         }
                                     }
@@ -2095,7 +2095,7 @@
                                             apiTestResult.textContent = JSON.stringify(result, null, 2);
                                         })
                                         .catch(error => {
-                                            apiTestResult.textContent = `请求失败: ${error.message}`;
+                                            apiTestResult.textContent = `Request failed: ${error.message}`;
                                         });
                                 });
                             }
@@ -2104,7 +2104,7 @@
                         // 添加网络错误检测
                         window.addEventListener('error', function(e) {
                             if (e.target.tagName === 'IMG' || e.target.tagName === 'SCRIPT') {
-                                console.error(`资源加载失败: ${e.target.src || e.target.href}`);
+                                console.error(`Resource loading failed: ${e.target.src || e.target.href}`);
                             }
                         }, true);
                     </script>
@@ -2117,37 +2117,37 @@
             <!-- 添加管理指南 -->
             <div class="manage-guide" style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.7); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                 <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-folder"></i> 文档管理指南
+                    <i class="fas fa-folder"></i> Document Management Guide
                 </h3>
                 <p style="margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.6;">
-                    在此页面，您可以查看、预览和管理已上传到知识库的所有文档。良好的知识库管理可以帮助提升问答质量。
+                    On this page, you can view, preview, and manage all documents uploaded to the knowledge base. Good knowledge base management can help improve the quality of answers.
                 </p>
                 
                 <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1rem;">
                     <div style="flex: 1; min-width: 250px; background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-search" style="color: var(--primary-color);"></i> 查看文档
+                            <i class="fas fa-search" style="color: var(--primary-color);"></i> View Document
                         </h4>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0;">
-                            点击文档行中的"查看"按钮，可以预览文档内容，了解知识库中的信息。
+                            Click the "View" button in the document row to preview the document content and understand the information in the knowledge base.
                         </p>
                     </div>
                     
                     <div style="flex: 1; min-width: 250px; background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-trash-alt" style="color: var(--primary-color);"></i> 删除文档
+                            <i class="fas fa-trash-alt" style="color: var(--primary-color);"></i> Delete Document
                         </h4>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0;">
-                            不再需要的文档可以删除，系统会自动更新知识库索引。删除操作不可撤销，请谨慎操作。
+                            Unwanted documents can be deleted. The system will automatically update the knowledge base index. Deletion is irreversible, please proceed with caution.
                         </p>
                     </div>
                     
                     <div style="flex: 1; min-width: 250px; background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-sync-alt" style="color: var(--primary-color);"></i> 刷新列表
+                            <i class="fas fa-sync-alt" style="color: var(--primary-color);"></i> Refresh List
                         </h4>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0;">
-                            点击"刷新列表"按钮可以获取最新的文档状态，确保显示最新上传或处理的文档。
+                            Click the "Refresh List" button to get the latest status of documents, ensuring that the most recently uploaded or processed documents are displayed.
                         </p>
                     </div>
                 </div>
@@ -2155,16 +2155,16 @@
                 <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(79, 70, 229, 0.05); border-radius: 0.75rem; border: 1px dashed rgba(79, 70, 229, 0.3);">
                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
                         <i class="fas fa-lightbulb" style="color: var(--primary-color);"></i>
-                        <span>提示：定期管理您的知识库，删除过时或不相关的文档，上传最新的资料，可以确保AI回答基于最准确、最新的信息。</span>
+                        <span>Tip: Regularly manage your knowledge base by deleting outdated or irrelevant documents and uploading the latest materials to ensure that AI answers are based on the most accurate and up-to-date information.</span>
                     </p>
                 </div>
             </div>
             
             <div class="manage-section">
                 <div class="action-bar">
-                    <h3>文档列表</h3>
+                    <h3>Document List</h3>
                     <button class="refresh-btn" id="refresh-docs-btn">
-                        <i class="fas fa-sync-alt"></i> 刷新列表
+                        <i class="fas fa-sync-alt"></i> Refresh List
                     </button>
                 </div>
                 
@@ -2172,11 +2172,11 @@
                     <table class="document-table">
                         <thead>
                             <tr>
-                                <th>文档ID</th>
-                                <th>标题</th>
-                                <th>作者</th>
-                                <th>标签</th>
-                                <th>操作</th>
+                                <th>Document ID</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Tags</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="documents-table">
@@ -2187,9 +2187,9 @@
                 
                 <div class="empty-state" id="empty-state" style="display:none;">
                     <i class="fas fa-folder-open"></i>
-                    <p>暂无文档</p>
+                    <p>No documents</p>
                     <button class="tab" data-tab="upload">
-                        <i class="fas fa-upload"></i> 上传文档
+                        <i class="fas fa-upload"></i> Upload Documents
                     </button>
                 </div>
             </div>
@@ -2200,14 +2200,14 @@
     <div id="preview-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="preview-title">文档预览</h3>
+                <h3 id="preview-title">Document Preview</h3>
                 <button id="preview-close-btn" class="close-btn">&times;</button>
             </div>
             <div class="modal-body">
                 <div id="preview-content" class="preview-content"></div>
             </div>
             <div class="modal-footer">
-                <button id="preview-footer-close-btn" class="btn-secondary close-btn">关闭</button>
+                <button id="preview-footer-close-btn" class="btn-secondary close-btn">Close</button>
             </div>
         </div>
     </div>
@@ -2216,14 +2216,14 @@
     <div id="success-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>操作成功</h3>
+                <h3>Operation Successful</h3>
                 <span class="close-btn">&times;</span>
             </div>
             <div class="modal-body">
                 <p id="success-message"></p>
             </div>
             <div class="modal-footer">
-                <button id="success-ok-btn" class="modal-btn primary-btn">确定</button>
+                <button id="success-ok-btn" class="modal-btn primary-btn">OK</button>
             </div>
         </div>
     </div>
@@ -2232,14 +2232,14 @@
     <div id="error-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>发生错误</h3>
+                <h3>Error Occurred</h3>
                 <span class="close-btn">&times;</span>
             </div>
             <div class="modal-body">
                 <p id="error-message"></p>
             </div>
             <div class="modal-footer">
-                <button id="error-ok-btn" class="modal-btn primary-btn">确定</button>
+                <button id="error-ok-btn" class="modal-btn primary-btn">OK</button>
             </div>
         </div>
     </div>
@@ -2812,7 +2812,7 @@
                 if (data.contexts && data.contexts.length > 0) {
                     content += `
                         <div class="references-container">
-                            <div class="reference-title">参考来源:</div>
+                            <div class="reference-title">Reference Sources:</div>
                     `;
                     
                     data.contexts.forEach(ref => {
@@ -2964,10 +2964,10 @@
                     <td>${tagsDisplay}</td>
                     <td>
                         <button class="action-btn view-btn" data-id="${doc.id}">
-                            <i class="fas fa-eye"></i> 查看
+                            <i class="fas fa-eye"></i> View
                         </button>
                         <button class="action-btn delete-btn" data-id="${doc.id}">
-                            <i class="fas fa-trash"></i> 删除
+                            <i class="fas fa-trash"></i> Delete
                         </button>
                     </td>
                 `;

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智能体系统 - AI教育辅助系统</title>
+    <title>Agent System - AI Education Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* 全局变量 */
+        /* Global Variables */
         :root {
             --primary-color: #2563eb;
             --primary-dark: #1d4ed8;
@@ -47,7 +47,7 @@
             flex-direction: column;
         }
         
-        /* 顶部导航 */
+        /* Top Navigation */
         .header {
             display: flex;
             justify-content: space-between;
@@ -124,7 +124,7 @@
             background-color: rgba(37, 99, 235, 0.2);
         }
         
-        /* 主要内容区 */
+        /* Main Content Area */
         .main-container {
             display: flex;
             flex-direction: column;
@@ -153,7 +153,7 @@
             color: var(--primary-color);
         }
 
-        /* 聊天容器样式 */
+        /* Chat Container Styles */
         .chat-container {
             flex: 1;
             display: flex;
@@ -162,7 +162,7 @@
             min-height: 600px;
         }
 
-        /* 响应窗口样式 */
+        /* Response Window Styles */
         .response-window {
             flex: 1;
             background-color: rgba(255, 255, 255, 0.6);
@@ -214,7 +214,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* 输入区域样式 */
+        /* Input Area Styles */
         .query-input {
             background-color: var(--bg-primary);
             border-radius: 1rem;
@@ -281,7 +281,7 @@
             background-color: white;
         }
         
-        /* 发送按钮样式 */
+        /* Send Button Styles */
         .send-button {
             background: var(--gradient-primary);
             color: white;
@@ -307,7 +307,7 @@
             transform: translateY(0);
         }
         
-        /* 加载动画 */
+        /* Loading Animation */
         .loading {
             display: flex;
             justify-content: center;
@@ -351,7 +351,7 @@
             }
         }
 
-        /* 思考、行动、观察、回答的样式 */
+        /* Thought, Action, Observation, Answer Styles */
         .thought, .action, .observation, .answer {
             font-weight: 600;
             margin-bottom: 1rem;
@@ -392,7 +392,7 @@
             opacity: 0.5;
         }
 
-        /* 移动端适配 */
+        /* Mobile Adaptation */
         @media (max-width: 768px) {
             .header {
                 padding: 0 1rem;
@@ -422,80 +422,80 @@
     </style>
 </head>
 <body>
-    <!-- 顶部导航 -->
+    <!-- Top Navigation -->
     <div class="header">
         <div class="logo-area">
             <img src="img/BJTU.jpeg" alt="Logo">
-            <h1>AI教育辅助系统</h1>
+            <h1>AI Education Assistant</h1>
         </div>
         
         <div class="nav-links">
             <a href="dashboard.html" class="nav-link">
-                <i class="fas fa-tachometer-alt"></i> 控制面板
+                <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
             <a href="react_agent.html" class="nav-link active">
-                <i class="fas fa-robot"></i> 智能体系统
+                <i class="fas fa-robot"></i> Agent System
             </a>
             <a href="rag.html" class="nav-link">
-                <i class="fas fa-search"></i> 知识库问答
+                <i class="fas fa-search"></i> Knowledge Base Q&A
             </a>
             <button class="logout-btn" id="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i> 退出登录
+                <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
     </div>
 
-    <!-- 主要内容区 -->
+    <!-- Main Content Area -->
     <div class="main-container">
         <div class="page-title">
             <i class="fas fa-robot"></i>
-            <h2>智能体系统</h2>
+            <h2>Agent System</h2>
         </div>
         
-        <!-- 添加描述区域 -->
+        <!-- Add description area -->
         <div class="system-description" style="margin-bottom: 2rem; background: rgba(255, 255, 255, 0.7); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
             <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-info-circle"></i> 关于智能体系统
+                <i class="fas fa-info-circle"></i> About Agent System
             </h3>
             <p style="margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.6;">
-                智能体系统基于"思考-行动-观察"(ReAct)框架设计，能够分析您的问题，进行多步推理并执行相关操作，解决复杂任务和问题。
+                The Agent System is designed based on the "Think-Act-Observe" (ReAct) framework, which can analyze your questions, perform multi-step reasoning, and execute related operations to solve complex tasks and problems.
             </p>
             <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;">
                 <div style="flex: 1; min-width: 200px;">
                     <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-brain" style="color: var(--primary-color);"></i> 特点
+                        <i class="fas fa-brain" style="color: var(--primary-color);"></i> Features
                     </h4>
                     <ul style="list-style: none; padding-left: 1.5rem; color: var(--text-secondary);">
                         <li style="margin-bottom: 0.5rem; position: relative;">
                             <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                            多步骤推理能力，解决复杂问题
+                            Multi-step reasoning capability to solve complex problems
                         </li>
                         <li style="margin-bottom: 0.5rem; position: relative;">
                             <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                            思考过程透明化，提供详细解析
+                            Transparent thinking process with detailed analysis
                         </li>
                         <li style="position: relative;">
                             <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                            支持编程、研究和复杂任务解决
+                            Support for programming, research, and complex task solving
                         </li>
                     </ul>
                 </div>
                 <div style="flex: 1; min-width: 200px;">
                     <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-lightbulb" style="color: var(--primary-color);"></i> 使用提示
+                        <i class="fas fa-lightbulb" style="color: var(--primary-color);"></i> Usage Tips
                     </h4>
                     <ul style="list-style: none; padding-left: 1.5rem; color: var(--text-secondary);">
                         <li style="margin-bottom: 0.5rem; position: relative;">
                             <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                            提供详细、明确的问题描述
+                            Provide detailed and clear problem descriptions
                         </li>
                         <li style="margin-bottom: 0.5rem; position: relative;">
                             <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                            涉及多步骤任务时，可分步提问
+                            For multi-step tasks, you can ask questions step by step
                         </li>
                         <li style="position: relative;">
                             <i class="fas fa-check" style="color: var(--primary-color); position: absolute; left: -1.5rem; top: 0.3rem;"></i>
-                            可选择性提供DeepSeek API密钥以提升性能
+                            Optionally provide DeepSeek API key to enhance performance
                         </li>
                     </ul>
                 </div>
@@ -503,66 +503,66 @@
             
             <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
                 <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-tools" style="color: var(--primary-color);"></i> 可用工具介绍
+                    <i class="fas fa-tools" style="color: var(--primary-color);"></i> Available Tools Introduction
                 </h4>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem;">
                     <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                             <i class="fas fa-file-alt" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">文件读取</h5>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">File Reading</h5>
                         </div>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                            可以读取指定文件的内容，支持按行读取，帮助分析和理解代码文件。
+                            You can read the content of a specified file, support line reading, help analyze and understand the code file.
                         </p>
                     </div>
                     
                     <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                             <i class="fas fa-search" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">文件搜索</h5>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">File Search</h5>
                         </div>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                            在指定目录中搜索匹配特定模式的文件，快速定位所需资源。
+                            Search for files matching a specific pattern in a specified directory to quickly locate the required resources.
                         </p>
                     </div>
                     
                     <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                             <i class="fas fa-code" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">代码分析</h5>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Code Analysis</h5>
                         </div>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                            分析代码文件的结构和内容，包括行数统计、复杂度分析等功能。
+                            Analyze the structure and content of the code file, including line count statistics, complexity analysis, etc.
                         </p>
                     </div>
                     
                     <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                             <i class="fas fa-search-plus" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">内容搜索</h5>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Content Search</h5>
                         </div>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                            在文件中搜索特定内容模式，支持正则表达式，帮助定位关键信息。
+                            Search for specific content patterns in the file, support regular expressions, help locate key information.
                         </p>
                     </div>
                     
                     <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                             <i class="fas fa-project-diagram" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">依赖分析</h5>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Dependency Analysis</h5>
                         </div>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                            分析代码的依赖关系，帮助理解模块间的连接和项目结构。
+                            Analyze the dependency relationships of the code to help understand the connections between modules and project structures.
                         </p>
                     </div>
                     
                     <div style="background: rgba(248, 249, 250, 0.8); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--border-color);">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                             <i class="fas fa-folder-open" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">目录分析</h5>
+                            <h5 style="font-size: 0.95rem; color: var(--text-primary); margin: 0;">Directory Analysis</h5>
                         </div>
                         <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                            分析目录结构，生成目录树，帮助了解项目组织和文件分布。
+                            Analyze the directory structure, generate directory trees, help understand project organization and file distribution.
                         </p>
                     </div>
                 </div>
@@ -570,43 +570,43 @@
                 <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(37, 99, 235, 0.05); border-radius: 0.75rem; border: 1px dashed rgba(37, 99, 235, 0.3);">
                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
                         <i class="fas fa-info-circle" style="color: var(--primary-color);"></i>
-                        智能体使用"思考-行动-观察"循环处理问题，每次思考后会选择合适的工具执行操作，观察结果后再进一步思考，最终提供完整答案。
+                        The Agent System uses the "Think-Act-Observe" loop to process problems, and after each thought, it will choose the appropriate tool to execute the operation, observe the result, and further think, finally providing a complete answer.
                     </p>
                 </div>
             </div>
         </div>
         
-        <!-- 聊天区域 -->
+        <!-- Chat area -->
         <div class="chat-container">
-            <!-- 回答窗口 -->
+            <!-- Answer window -->
             <div id="response-window" class="response-window hidden">
                 <div class="response-content" id="response-content"></div>
-                <!-- 添加滚动到底部按钮 -->
+                <!-- Add scroll to bottom button -->
                 <div style="text-align: right; margin-top: 0.5rem;">
                     <button onclick="scrollToBottom()" style="background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; padding: 0.4rem 0.8rem; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: var(--shadow-sm);">
-                        <i class="fas fa-arrow-down"></i> 滚动到底部
+                        <i class="fas fa-arrow-down"></i> Scroll to Bottom
                     </button>
                 </div>
             </div>
             
-            <!-- 输入区域 -->
+            <!-- Input area -->
             <div class="query-input">
                 <div class="mb-4">
                     <label class="input-label" for="api-key">
-                        DeepSeek API密钥（可选）
+                        DeepSeek API Key (Optional)
                     </label>
-                    <input type="password" id="api-key" class="api-key-input" placeholder="请输入您的API密钥">
+                    <input type="password" id="api-key" class="api-key-input" placeholder="Please enter your API key">
                 </div>
                 
                 <div class="mb-4">
                     <label class="input-label" for="query">
-                        输入您的问题
+                        Enter Your Question
                     </label>
-                    <textarea id="query" placeholder="请输入您的问题..."></textarea>
+                    <textarea id="query" placeholder="Please enter your question..."></textarea>
                 </div>
                 
                 <button onclick="submitQuery()" class="send-button">
-                    <i class="fas fa-paper-plane"></i> 发送
+                    <i class="fas fa-paper-plane"></i> Send
                 </button>
             </div>
         </div>
@@ -614,19 +614,19 @@
 
     <script src="js/config.js"></script>
     <script>
-        // 显示用户名
+        // Display username
         const username = localStorage.getItem('username');
         if (!username) {
             window.location.href = 'login.html';
         }
 
-        // 退出登录函数
+        // Logout function
         function logout() {
             localStorage.removeItem('username');
             window.location.href = 'login.html';
         }
 
-        // 确保页面从顶部开始显示
+        // Ensure page starts from top
         function scrollToTop() {
             window.scrollTo(0, 0);
             const chatContainer = document.querySelector('.chat-container');
@@ -635,10 +635,10 @@
             }
         }
         
-        // 页面加载时滚动到顶部
+        // Scroll to top when page loads
         scrollToTop();
         
-        // 优化输入框自动调整高度
+        // Optimize textarea auto-height adjustment
         const textarea = document.getElementById('query');
         textarea.addEventListener('input', function() {
             this.style.height = 'auto';
@@ -646,7 +646,7 @@
             this.style.height = newHeight + 'px';
         });
 
-        // 优化滚动行为
+        // Optimize scrolling behavior
         function scrollToBottom() {
             const chatContainer = document.querySelector('.chat-container');
             const responseContent = document.getElementById('response-content');
@@ -658,25 +658,25 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // 优化打字机效果函数
+        // Optimize typewriter effect function
         async function typeWriter(element, text, speed = 30) {
-            // 清空之前的内容
+            // Clear previous content
             element.innerHTML = '';
             
-            // 按字符显示
+            // Display character by character
             for (let i = 0; i < text.length; i++) {
-                // 添加当前字符
+                // Add current character
                 element.innerHTML = text.substring(0, i + 1) + '<span class="typing-text"></span>';
                 
-                // 根据字符类型调整延迟
+                // Adjust delay based on character type
                 const char = text[i];
                 let delay = speed;
                 
-                // 标点符号停顿时间更长
+                // Longer pause for punctuation
                 if (/[.,!?;:]/.test(char)) {
                     delay = speed * 2;
                 }
-                // 换行符停顿时间更长
+                // Longer pause for line breaks
                 else if (char === '\n') {
                     delay = speed * 1.5;
                 }
@@ -684,11 +684,11 @@
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
             
-            // 移除光标
+            // Remove cursor
             element.innerHTML = text;
         }
 
-        // 修改processResponse函数
+        // Modify processResponse function
         async function processResponse(data) {
             const responseContent = document.getElementById('response-content');
             const responseWindow = document.getElementById('response-window');
@@ -696,27 +696,27 @@
             responseWindow.classList.remove('hidden');
             setTimeout(() => {
                 responseWindow.classList.add('visible');
-                // 不需要滚动到底部
+                // No need to scroll to bottom
                 // scrollToBottom();
             }, 10);
             
             if (data.response) {
-                // 使用打字机效果显示新内容，速度设为30
+                // Display new content with typewriter effect, speed set to 30
                 await typeWriter(responseContent, data.response, 30);
-                // 不需要滚动到底部
+                // No need to scroll to bottom
                 // setTimeout(scrollToBottom, 100);
             } else {
-                await typeWriter(responseContent, '没有收到响应', 30);
+                await typeWriter(responseContent, 'No response received', 30);
             }
         }
 
-        // 添加窗口大小改变时的处理
+        // Add window resize handler
         window.addEventListener('resize', function() {
-            // 不自动滚动到底部
+            // No auto scroll to bottom
             // scrollToBottom();
         });
 
-        // 提交查询函数
+        // Submit query function
         async function submitQuery() {
             const query = document.getElementById('query').value;
             const apiKey = document.getElementById('api-key').value;
@@ -724,11 +724,11 @@
             const sendButton = document.querySelector('.send-button');
             
             if (!query) {
-                showError('请输入问题');
+                showError('Please enter a question');
                 return;
             }
             
-            // 禁用发送按钮并显示加载状态
+            // Disable send button and show loading state
             sendButton.disabled = true;
             sendButton.innerHTML = `
                 <div class="loading-dots">
@@ -739,7 +739,7 @@
             `;
             
             try {
-                // 发送请求到服务器
+                // Send request to server
                 const response = await fetch('http://localhost:8001/llm/chat', {
                     method: 'POST',
                     headers: {
@@ -760,20 +760,20 @@
                 
                 const data = await response.json();
                 
-                // 处理响应数据
+                // Process response data
                 await processResponse(data);
                 
             } catch (error) {
-                console.error('发生错误:', error);
+                console.error('Error occurred:', error);
                 showError(error.message);
             } finally {
-                // 恢复发送按钮状态
+                // Restore send button state
                 sendButton.disabled = false;
-                sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> 发送';
+                sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send';
             }
         }
 
-        // 修改showError函数
+        // Modify showError function
         async function showError(message) {
             const responseContent = document.getElementById('response-content');
             const responseWindow = document.getElementById('response-window');
@@ -783,10 +783,10 @@
                 responseWindow.classList.add('visible');
             }, 10);
             
-            await typeWriter(responseContent, `错误: ${message}`, 30);
+            await typeWriter(responseContent, `Error: ${message}`, 30);
         }
 
-        // 添加回车发送功能
+        // Add enter key send functionality
         document.getElementById('query').addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -794,18 +794,18 @@
             }
         });
 
-        // 自动聚焦输入框
+        // Auto focus input field
         document.getElementById('query').focus();
         
-        // 页面DOM加载完成后滚动到顶部
+        // Scroll to top after DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM加载完成，滚动到顶部');
+            console.log('DOM loaded, scrolling to top');
             scrollToTop();
         });
         
-        // 页面完全加载后再次确保滚动到顶部
+        // Ensure scroll to top after page is fully loaded
         window.onload = function() {
-            console.log('页面完全加载，滚动到顶部');
+            console.log('Page fully loaded, scrolling to top');
             scrollToTop();
         };
     </script>
