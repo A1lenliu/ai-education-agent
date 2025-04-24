@@ -1,0 +1,38 @@
+{
+  "task_type": "classification",
+  "model_name": "bert-base-chinese",
+  "num_epochs": 3,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "train_size": 1412,
+  "eval_size": 112,
+  "best_accuracy": 0.6263,
+  "final_train_loss": 0.7522,
+  "final_eval_loss": 0.7756,
+  "final_train_accuracy": 0.6445,
+  "final_eval_accuracy": 0.6263,
+  "final_train_f1": 0.5571,
+  "final_eval_f1": 0.5454,
+  "training_time_seconds": 6.34,
+  "timestamp": "2025-04-25 01:11:08",
+  "loss_history": [
+    0.9546,
+    0.8574,
+    0.7522
+  ],
+  "eval_loss_history": [
+    0.9852,
+    0.9823,
+    0.7756
+  ],
+  "accuracy_history": [
+    0.5431,
+    0.5823,
+    0.6445
+  ],
+  "eval_accuracy_history": [
+    0.5061,
+    0.5357,
+    0.6263
+  ]
+}
