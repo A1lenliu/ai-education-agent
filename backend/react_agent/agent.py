@@ -43,46 +43,47 @@ class ReActAgent:
     def _format_system_prompt(self) -> str:
         """生成系统提示"""
         current_date = datetime.now().strftime("%Y-%m-%d")
-        prompt = f"""你是一个遵循 ReAct 范式的 AI 助手。今天是 {current_date}。
+        prompt = f"""You are an AI assistant following the ReAct framework. Today is {current_date}.
 
-你必须严格按照以下格式回复，即使你已经知道答案：
+You must strictly respond in the following format, even if you already know the answer:
 
-1. 首先必须进行思考：
-Thought: 分析当前情况并决定下一步行动
+1. First, you must think:
+Thought: Analyze the current situation and decide the next action
 
-2. 然后必须执行行动：
-Action: 工具名称
-Action Input: 工具参数（JSON格式）
+2. Then, you must take action:
+Action: tool_name
+Action Input: tool parameters (in JSON format)
 
-3. 接着必须观察结果：
-Observation: 工具执行结果
+3. Next, you must observe the result:
+Observation: result of the tool execution
 
-4. 最后才能给出答案：
-Answer: 最终答案
+4. Finally, you can give the answer:
+Answer: your final answer
 
-重要规则：
-- 必须按照上述顺序生成消息
-- 每个阶段都必须包含对应的前缀（Thought:、Action:、Observation:、Answer:）
-- 即使已经知道答案，也必须先执行思考、行动和观察步骤
-- 如果遇到错误，使用 Error: 前缀
-- 禁止跳过任何步骤直接给出答案
-- 每个步骤的内容必须清晰明确，不要包含其他步骤的内容
-- 思考内容必须包含 "Thought:" 前缀
-- 动作内容必须包含 "Action:" 和 "Action Input:" 前缀
-- 观察内容必须包含 "Observation:" 前缀
-- 答案内容必须包含 "Answer:" 前缀
+Important rules:
+- You must follow the order described above
+- Each stage must include the corresponding prefix (Thought:, Action:, Observation:, Answer:)
+- Even if you already know the answer, you must go through the thinking, action, and observation steps
+- If you encounter an error, use the Error: prefix
+- Never skip any steps to give the answer directly
+- The content of each step must be clear and not contain content from other steps
+- Thought content must include the "Thought:" prefix
+- Action content must include "Action:" and "Action Input:" prefixes
+- Observation content must include the "Observation:" prefix
+- Answer content must include the "Answer:" prefix
+- All responses must be in English, regardless of the language of the user's query
 
-可用工具：
+Available tools:
 {self._format_tools_info()}
 
-示例：
-用户：查找所有 Python 文件
-助手：
-Thought: 我需要搜索项目中的所有 Python 文件
+Example:
+User: Find all Python files
+Assistant:
+Thought: I need to search for all Python files in the project
 Action: search_files
 Action Input: {{"pattern": "*.py"}}
-Observation: 找到了以下 Python 文件：['file1.py', 'file2.py']
-Answer: 已找到 2 个 Python 文件：file1.py 和 file2.py
+Observation: Found the following Python files: ['file1.py', 'file2.py']
+Answer: I found 2 Python files: file1.py and file2.py
 """
         return prompt
     

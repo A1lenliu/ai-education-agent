@@ -356,7 +356,7 @@ async def query_rag(request: RAGQueryRequest):
                 # 构建简单的消息
                 messages = [
                     system_message,
-                    {"role": "user", "content": f"我在知识库中没有找到与'{request.query}'相关的信息。请提供一个礼貌的回应，说明无法从知识库中找到相关内容。"}
+                    {"role": "user", "content": f"我在知识库中没有找到与'{request.query}'相关的信息。请提供一个礼貌的回应，说明无法从知识库中找到相关内容。请用英文回答。"}
                 ]
                 
                 # 查询LLM
