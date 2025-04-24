@@ -11,6 +11,7 @@ import httpx
 import json
 from typing import Optional, Dict, Any, List
 from .routes import react_agent
+# 重新启用RAG服务
 from .rag_service import api as rag_api  # 导入RAG服务API
 import asyncio
 from .react_agent.agent import ReActAgent
@@ -64,7 +65,7 @@ app.add_middleware(
 # 注册 ReAct 路由
 app.include_router(react_agent.router, prefix="/react-agent", tags=["react-agent"])
 
-# 注册 RAG 服务路由
+# 重新启用RAG服务路由
 app.include_router(rag_api.router, prefix="/rag", tags=["rag"])
 
 # LLM 聊天路由

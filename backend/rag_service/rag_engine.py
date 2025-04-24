@@ -20,18 +20,53 @@ except LookupError:
 
 logger = logging.getLogger(__name__)
 
+# 创建自定义嵌入函数类，符合ChromaDB新接口
+class SimpleEmbeddingFunction:
+    def __init__(self, dimension=384):
+        self.dimension = dimension
+    
+    def __call__(self, input):
+        """按照ChromaDB的要求实现__call__方法，只接受input参数"""
+        result = []
+        
+        # 确保input是一个列表
+        texts = input if isinstance(input, list) else [input]
+        
+        for text in texts:
+            # 对文本进行简单哈希处理并标准化
+            hash_values = []
+            for i in range(self.dimension):
+                # 使用不同的种子值生成哈希
+                seed = i + 1
+                hash_val = 0
+                for j, char in enumerate(text):
+                    hash_val += (ord(char) * (seed + j)) % 1000
+                hash_values.append(hash_val)
+            
+            # 标准化向量
+            vec = np.array(hash_values, dtype=float)
+            norm = np.linalg.norm(vec)
+            if norm > 0:
+                vec = vec / norm
+            
+            result.append(vec.tolist())
+        
+        return result
+
 class RAGEngine:
     """
     RAG（检索增强生成）引擎
     使用ChromaDB作为向量数据库，支持文档的存储、检索和问答
     """
     
-    def __init__(self, collection_name: str = "default_collection"):
+    def __init__(self, collection_name: str = "default_collection", model_name: str = None, use_local_model: bool = True):
         """
         初始化RAG引擎
         
         Args:
             collection_name: 向量数据库集合名称
+            model_name: 嵌入模型名称，如果为None则使用默认模型
+            use_local_model: 是否使用本地轻量级模型，避免下载大型模型
         """
         # 创建向量数据库存储目录
         self.db_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 
@@ -41,10 +76,18 @@ class RAGEngine:
         # 初始化Chroma客户端
         self.client = chromadb.PersistentClient(path=self.db_directory)
         
-        # 设置默认的嵌入函数
-        self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="paraphrase-multilingual-MiniLM-L12-v2"  # 支持中文的多语言模型
-        )
+        # 设置嵌入函数
+        if use_local_model:
+            # 使用自定义嵌入函数类
+            logger.info("使用本地嵌入函数，避免下载模型")
+            self.embedding_function = SimpleEmbeddingFunction()
+        else:
+            # 设置默认的嵌入函数
+            model_name = model_name or "paraphrase-multilingual-MiniLM-L12-v2"  # 支持中文的多语言模型
+            logger.info(f"使用SentenceTransformer模型: {model_name}")
+            self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
+                model_name=model_name
+            )
         
         # 获取或创建集合
         try:
@@ -59,6 +102,19 @@ class RAGEngine:
                 name=collection_name,
                 embedding_function=self.embedding_function
             )
+    
+    def _get_simple_embedding_function(self):
+        """
+        创建一个简单的本地嵌入函数，无需下载模型
+        这个函数不如预训练模型性能好，但可以在无法下载模型时使用
+        
+        注意：此方法已弃用，保留是为了向后兼容。建议直接使用SimpleEmbeddingFunction类
+        
+        Returns:
+            嵌入函数
+        """
+        # 创建并返回SimpleEmbeddingFunction的实例
+        return SimpleEmbeddingFunction()
     
     def process_text(self, text: str, chunk_size: int = 1000, chunk_overlap: int = 200) -> List[str]:
         """

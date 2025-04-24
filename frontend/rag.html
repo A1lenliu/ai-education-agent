@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Base Q&A System - AI Education Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 优先加载修复脚本 -->
+    <script src="js/force_fix.js"></script>
     <!-- 先加载config.js确保配置在使用前已定义 -->
     <script src="js/config.js"></script>
+    <script src="js/url_override.js"></script>
+    <!-- 加载RAG页面主要JS功能 -->
+    <script src="js/rag.js"></script>
     <style>
         /* 全局变量 */
         :root {
@@ -2037,7 +2042,7 @@
                                 // 预设URL
                                 apiTestUrl.addEventListener('focus', function() {
                                     if (!this.value) {
-                                        this.value = API_BASE_URL + '/rag/documents';
+                                        this.value = RAG_BASE_URL + '/rag/documents';
                                     }
                                 });
                                 
@@ -2248,6 +2253,9 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
     <script>
+        // API基础URL
+        window.RAG_BASE_URL = 'http://localhost:8000';
+        
         // 改进函数：显示模态框
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -2360,16 +2368,25 @@
             };
         }
         
-        // 确保API_BASE_URL全局变量存在
-        if (typeof API_BASE_URL === 'undefined') {
-            console.warn('API_BASE_URL未在全局定义，使用默认值');
-            window.API_BASE_URL = 'http://localhost:8000';
+        // 确保RAG_BASE_URL全局变量存在
+        if (typeof RAG_BASE_URL === 'undefined') {
+            console.warn('RAG_BASE_URL未在全局定义，使用默认值');
+            window.RAG_BASE_URL = 'http://localhost:8000';
+        }
+        
+        // 确保RAG_BASE_URL全局变量存在
+        if (typeof RAG_BASE_URL === 'undefined') {
+            console.warn('RAG_BASE_URL未在全局定义，使用默认值');
+            window.RAG_BASE_URL = 'http://localhost:8000';
         }
         
         // 检查API配置是否已正确加载
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('API_BASE_URL:', API_BASE_URL);
+            console.log('%c===== API 配置信息 =====', 'background: #4b0082; color: white; padding: 4px;');
+            console.log('RAG_BASE_URL:', RAG_BASE_URL);
+            console.log('RAG_BASE_URL:', RAG_BASE_URL);
             console.log('RAG_API:', RAG_API);
+            console.log('%c=======================', 'background: #4b0082; color: white; padding: 4px;');
             
             // 检查API连接
             if (typeof checkApiConnection === 'function') {
@@ -2378,8 +2395,12 @@
             } else {
                 console.warn('checkApiConnection未定义，使用内部函数检查API连接');
                 // 内部API连接检查
-                fetch(`${API_BASE_URL}/rag/documents`, { method: 'GET' })
+                const healthCheckUrl = `${RAG_BASE_URL}/health`;
+                console.log('发送健康检查请求到:', healthCheckUrl);
+                
+                fetch(healthCheckUrl, { method: 'GET' })
                     .then(response => {
+                        console.log('健康检查响应状态:', response.status);
                         if (response.ok) {
                             console.log('✅ API服务正常');
                             return response.json();
@@ -2846,7 +2867,10 @@
         
         // 加载文档列表
         function loadDocuments() {
-            console.log('加载文档列表...');
+            console.log('%c===== 加载文档列表 =====', 'background: #008080; color: white; padding: 4px;');
+            console.log('当前RAG_BASE_URL:', RAG_BASE_URL);
+            console.log('当前RAG_BASE_URL:', RAG_BASE_URL);
+            console.log('当前RAG_API.documents:', RAG_API.documents);
             
             // 显示加载状态
             const documentsTable = document.getElementById('documents-table');
@@ -2862,7 +2886,11 @@
             console.log('请求文档列表URL:', url);
             
             // 发送API请求
-            fetch(url)
+            console.log('开始发送fetch请求到:', url);
+            fetch(url, { 
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            })
                 .then(response => {
                     console.log('文档列表响应状态:', response.status);
                     if (!response.ok) {
@@ -3254,32 +3282,36 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM已加载，正在检查API状态...');
             
-            // 确保RAG_API已定义
+            // 确保RAG_API已定义（仅输出日志，不重新定义）
             if (typeof RAG_API === 'undefined') {
-                console.warn('RAG_API未定义，使用默认配置');
-                // 使用默认的API配置
-                window.RAG_API = {
-                    upload: API_BASE_URL + '/rag/document/upload',
-                    documents: API_BASE_URL + '/rag/documents',
-                    documentContent: API_BASE_URL + '/rag/document/content',
-                    deleteDocument: API_BASE_URL + '/rag/document/delete',
-                    search: API_BASE_URL + '/rag/search',
-                    query: API_BASE_URL + '/rag/query'
-                };
+                console.warn('RAG_API未定义！这不应该发生，请检查config.js是否正确加载');
+            } else {
+                console.log('使用已经定义的RAG_API配置');
             }
             
-            console.log('API基础URL:', API_BASE_URL);
+            console.log('API基础URL:', RAG_BASE_URL);
+            console.log('RAG_BASE_URL:', RAG_BASE_URL);
             console.log('RAG API配置:', RAG_API);
             
             try {
                 // 检查API连接
-                fetch(RAG_API.documents)
+                const healthUrl = `${RAG_BASE_URL}/health`;
+                console.log('检查RAG服务健康状态:', healthUrl);
+                
+                fetch(healthUrl)
                     .then(response => {
-                        console.log('API连接检查响应状态:', response.status);
-                        // 即使返回404也表示API服务器在运行
-                        if (!response.ok && response.status !== 404) {
-                            throw new Error(`HTTP错误! 状态: ${response.status}`);
+                        console.log('健康检查响应状态:', response.status);
+                        if (response.ok) {
+                            console.log('RAG服务健康检查通过');
+                            // 现在检查文档API
+                            console.log('检查文档API:', RAG_API.documents);
+                            return fetch(RAG_API.documents);
+                        } else {
+                            throw new Error(`健康检查失败! 状态: ${response.status}`);
                         }
+                    })
+                    .then(response => {
+                        console.log('文档API响应状态:', response.status);
                         console.log('API连接成功');
                         // 初始化RAG界面
                         initializeRAGInterface();
@@ -3344,7 +3376,7 @@
                     fullUrl = '/' + url;
                 }
                 if (!url.startsWith('http')) {
-                    fullUrl = API_BASE_URL + fullUrl;
+                    fullUrl = RAG_BASE_URL + fullUrl;
                 }
                 
                 // 获取请求方法
@@ -3426,5 +3458,6 @@
             }
         }
     </script>
+    <script src="js/fix_api_calls.js"></script>
 </body>
 </html> 

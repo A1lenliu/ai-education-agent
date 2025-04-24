@@ -19,20 +19,20 @@ check_and_kill_port 8000
 check_and_kill_port 8001
 check_and_kill_port 3000
 
-# 启动RAG服务后端
+# 启动RAG服务后端（端口8000）
 echo "正在启动RAG服务后端（端口8000）..."
-(python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000 --app-dir=. &)
+(python3 -m uvicorn backend.rag_main:app --reload --host 0.0.0.0 --port 8000 --app-dir=. &)
 
-# 启动React智能体后端
+# 启动React智能体后端（端口8001）
 echo "正在启动React智能体后端（端口8001）..."
-(python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8001 --app-dir=. &)
+(python3 -m uvicorn backend.react_main:app --reload --host 0.0.0.0 --port 8001 --app-dir=. &)
 
 # 等待2秒确保后端启动
 sleep 2
 
 # 启动前端服务器
 echo "正在启动前端服务..."
-(cd frontend && python -m http.server 3000 &)
+(cd frontend && python3 -m http.server 3000 &)
 
 # 等待2秒
 sleep 2

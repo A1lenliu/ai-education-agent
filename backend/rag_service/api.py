@@ -164,17 +164,161 @@ async def delete_document(request: DeleteDocumentRequest):
 @router.get("/documents")
 async def get_documents():
     """
-    获取所有文档ID
+    获取所有文档ID和基本信息
     """
     try:
+        logger.info("获取文档列表")
         doc_ids = rag_engine.get_document_ids()
-        return {"status": "success", "doc_ids": doc_ids}
+        
+        # 获取详细信息
+        documents = []
+        for doc_id in doc_ids:
+            try:
+                doc = rag_engine.get_document_content(doc_id)
+                if doc:
+                    documents.append({
+                        "doc_id": doc_id,
+                        "title": doc.get("title", "未命名文档"),
+                        "author": doc.get("author", ""),
+                        "tags": doc.get("tags", "")
+                    })
+                else:
+                    # 如果无法获取详情，至少返回ID
+                    documents.append({
+                        "doc_id": doc_id,
+                        "title": "未命名文档",
+                        "author": "",
+                        "tags": ""
+                    })
+            except Exception as e:
+                logger.warning(f"获取文档 {doc_id} 详情时出错: {str(e)}")
+                # 出错时仍然添加基本信息
+                documents.append({
+                    "doc_id": doc_id,
+                    "title": "无法读取",
+                    "author": "",
+                    "tags": ""
+                })
+        
+        return {
+            "status": "success", 
+            "documents": documents,
+            "doc_ids": doc_ids  # 保留doc_ids以兼容旧接口
+        }
     except Exception as e:
         logger.error(f"获取文档列表时出错: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"获取文档列表失败: {str(e)}")
+        # 即使出错也返回空列表而不是500错误
+        return {
+            "status": "error", 
+            "documents": [], 
+            "doc_ids": [],
+            "error": str(e)
+        }
+
+# 添加文档分页和搜索支持
+@router.get("/documents/paged")
+async def get_documents_paged(page: int = 1, limit: int = 10, search: str = ""):
+    """
+    获取分页的文档列表
+    """
+    try:
+        logger.info(f"获取分页文档列表: 页码={page}, 每页={limit}, 搜索={search}")
+        # 获取所有文档ID
+        doc_ids = rag_engine.get_document_ids()
+        
+        # 如果提供了搜索关键词，进行过滤
+        if search:
+            # 遍历每个文档，检查标题或内容是否包含搜索关键词
+            filtered_ids = []
+            for doc_id in doc_ids:
+                doc = rag_engine.get_document_content(doc_id)
+                if doc and (search.lower() in doc.get("title", "").lower() or 
+                           search.lower() in doc.get("content", "").lower()):
+                    filtered_ids.append(doc_id)
+            doc_ids = filtered_ids
+            
+        # 计算总页数
+        total_docs = len(doc_ids)
+        total_pages = (total_docs + limit - 1) // limit if total_docs > 0 else 1
+        
+        # 确保页码在有效范围内
+        page = max(1, min(page, total_pages))
+        
+        # 获取当前页的文档ID
+        start_idx = (page - 1) * limit
+        end_idx = min(start_idx + limit, total_docs)
+        page_doc_ids = doc_ids[start_idx:end_idx] if start_idx < total_docs else []
+        
+        # 获取每个文档的基本信息
+        documents = []
+        for doc_id in page_doc_ids:
+            try:
+                doc = rag_engine.get_document_content(doc_id)
+                if doc:
+                    documents.append({
+                        "doc_id": doc_id,
+                        "title": doc.get("title", "未命名文档"),
+                        "author": doc.get("author", ""),
+                        "tags": doc.get("tags", "")
+                    })
+                else:
+                    # 如果无法获取详情，至少返回ID
+                    documents.append({
+                        "doc_id": doc_id,
+                        "title": "未命名文档",
+                        "author": "",
+                        "tags": ""
+                    })
+            except Exception as e:
+                logger.warning(f"获取文档 {doc_id} 详情时出错: {str(e)}")
+                # 出错时仍然添加基本信息
+                documents.append({
+                    "doc_id": doc_id,
+                    "title": "无法读取",
+                    "author": "",
+                    "tags": ""
+                })
+        
+        return {
+            "status": "success", 
+            "documents": documents,
+            "pagination": {
+                "page": page,
+                "total_pages": total_pages,
+                "total_docs": total_docs
+            }
+        }
+    except Exception as e:
+        logger.error(f"获取分页文档列表时出错: {str(e)}")
+        # 即使出错也返回空列表而不是500错误
+        return {
+            "status": "error", 
+            "documents": [],
+            "pagination": {
+                "page": page,
+                "total_pages": 1,
+                "total_docs": 0
+            },
+            "error": str(e)
+        }
 
 @router.get("/document/content")
 async def get_document_content(doc_id: str):
+    """
+    获取指定文档的内容 (兼容旧接口)
+    """
+    try:
+        document = rag_engine.get_document_content(doc_id)
+        if document:
+            return {"status": "success", "document": document}
+        else:
+            raise HTTPException(status_code=404, detail=f"未找到文档 {doc_id}")
+    except Exception as e:
+        logger.error(f"获取文档内容时出错: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"获取文档内容失败: {str(e)}")
+
+@router.get("/document/{doc_id}")
+async def get_document_by_id(doc_id: str):
     """
     获取指定文档的内容
     """
